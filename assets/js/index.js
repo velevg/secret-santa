@@ -1,17 +1,24 @@
 $(document).ready(function () {
-    // $("#profile-tab").on('click', function () {
-    //     $.ajax({
-    //         url: 'views/components/profile.html',
-    //         dataType: 'html',
-    //         success: function (data) {
-    //             // Insert the loaded HTML into the content container
-    //             $('#editProfileContainer').html(data);
-    //         },
-    //         error: function () {
-    //             console.error('Failed to load HTML snippet');
-    //         }
-    //     });
-    // })
+    $("#home-tab").on('click', function () {
+        $("#profile_snippet").addClass("d-none");
+        $("#groups_snippet").addClass("d-none");
+    });
+
+    $("#profile-tab").on('click', function () {
+        let url = "views/components/profile.html";
+        $("#profile_snippet").load(url)
+
+        $("#profile_snippet").removeClass("d-none");
+        $("#groups_snippet").addClass("d-none");
+    });
+
+    $("#groups-tab").on('click', function () {
+        let url = "views/components/groups.html";
+        $("#groups_snippet").load(url)
+
+        $("#profile_snippet").addClass("d-none");
+        $("#groups_snippet").removeClass("d-none");
+    });
 
     function showNotification(type, title, message, position, timeout) {
         switch (type) {
@@ -57,7 +64,7 @@ $(document).ready(function () {
     }
 
     // Edit Profile
-    $("#editProfileBtn").on('click', function () {
+    $("#profile_snippet").on('click', '#editProfileBtn', function () {
         let name = $("#name").val();
         let oldPassword = $("#old_password").val();
         let newPassword = $("#new_password").val();
