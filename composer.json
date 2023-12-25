@@ -1,0 +1,19 @@
+{
+    "name": "user/smarty",
+    "autoload": {
+        "psr-4": {
+            "User\\Smarty\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "velevg",
+            "email": "georgevelev.95@gmail.com"
+        }
+    ],
+    "require": {
+        "smarty/smarty": "^4.3",
+        "altorouter/altorouter": "^2.0",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

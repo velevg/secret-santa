@@ -1,0 +1,16 @@
+Home
+<a href="auth" id="logout">Logout</a>
+<button id="getSession" class="btn btn-sm btn-info">getSession</button>
+<script>
+    $(document).ready(function () {
+        $("#getSession").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "controllers/getSession.php",
+                success: function (response) {
+                    console.log(response)
+                }
+            })
+        })
+    })
+</script>

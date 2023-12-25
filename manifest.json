@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Secret Santa",
+  "version": "1.0",
+  "description": "Solves the secret Santa problem",
+  "icons": {
+    "128": "icon.png"
+  },
+  "permissions": ["activeTab", "tabs"],
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "resources": ["icon.png"]
+    }
+  ]
+}
