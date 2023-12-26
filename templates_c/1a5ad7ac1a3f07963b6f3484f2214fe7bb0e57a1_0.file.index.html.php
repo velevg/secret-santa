@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-12-25 19:42:39
+/* Smarty version 4.3.4, created on 2023-12-26 14:26:39
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\index.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_6589cd1f835730_80151036',
+  'unifunc' => 'content_658ad48f853162_23819153',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1a5ad7ac1a3f07963b6f3484f2214fe7bb0e57a1' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\index.html',
-      1 => 1703529756,
+      1 => 1703597197,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6589cd1f835730_80151036 (Smarty_Internal_Template $_smarty_tpl) {
+function content_658ad48f853162_23819153 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -78,7 +78,7 @@ echo $_SESSION['message'];
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
-                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Gift</button>
+                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
@@ -95,7 +95,7 @@ echo $_SESSION['message'];
             <!--TAB GIFT-->
             <div class="tab-pane fade show active d-flex justify-content-center" id="home-tab-pane" role="tabpanel"
                 aria-labelledby="home-tab" tabindex="0">
-                <div id="gift_snippet" class="d-flex justify-content-center w-100">
+                <div class="mt-3">
                     Home
                     <a href="auth" id="logout">Logout</a>
                     <button id="getSession" class="btn btn-sm btn-info">getSession</button>
@@ -119,12 +119,90 @@ echo $_SESSION['message'];
             <!--TAB PROFILE-->
             <div class="tab-pane fade d-flex justify-content-center" id="profile-tab-pane" role="tabpanel"
                 aria-labelledby="profile-tab" tabindex="0">
-                <div id="profile_snippet" class="d-flex justify-content-center w-100"></div>
+                <div class='w-75 mt-3'>
+                    <form method="POST" id="editProfileForm">
+                        <div class='d-flex justify-content-center'>
+                            <h5 class='card-title fs-3'>Edit Profile</h5>
+                        </div>
+                        <div class='mt-5 mb-5'>
+                            <div class='form-floating mb-1'>
+                                <input type='text' class='form-control bg-transparent shadow border border-0'
+                                    id='profileEmail' placeholder='' value='<?php echo $_smarty_tpl->tpl_vars['email']->value;?>
+' name="email"
+                                    pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' readonly />
+                                <label for='profileEmail'>Email</label>
+                            </div>
+                            <div class='form-floating mb-1'>
+                                <input type='text' class='form-control bg-transparent shadow border border-0' id='name'
+                                    placeholder='' value='<?php echo $_smarty_tpl->tpl_vars['username']->value;?>
+' name="name" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$'
+                                    autocomplete="off" />
+                                <label for='name'>Name</label>
+                            </div>
+                            <div class='form-floating mb-1'>
+                                <input class='form-control bg-transparent shadow border border-0' id='old_password'
+                                    placeholder='' value='' name="old_password" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$'
+                                    autocomplete="off" />
+                                <label for='old_password'>old password</label>
+                            </div>
+                            <div class='form-floating mb-1'>
+                                <input class='form-control bg-transparent shadow border border-0' id='new_password'
+                                    placeholder='' value='' name="new_password" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' />
+                                <label for='new_password'>new password</label>
+                            </div>
+                            <div class='form-floating mb-1'>
+                                <input class='form-control bg-transparent shadow border border-0'
+                                    id='confirm_new_password' placeholder='' value='' name="confirm_new_password"
+                                    pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' />
+                                <label for='confirm_new_password'>confirm new password</label>
+                            </div>
+                        </div>
+                        <div class='d-flex justify-content-center'>
+                            <input id="editProfileBtn" class="btn btn-success" value="Save">
+                            <input type="hidden" name="edit_profile" value="edit_profile">
+                            <input id="editProfileCsrf" type="hidden" name="csrf_token" value="<?php echo $_smarty_tpl->tpl_vars['csrf_token']->value;?>
+">
+                            <!-- <div class="g-recaptcha" data-sitekey="6LfXrTspAAAAAAyvMrjpM7BhWMFcpfqEAXoGMjjP">
+                            </div> -->
+                        </div>
+                    </form>
+                </div>
             </div>
             <!--TAB GROUPS-->
-            <div class="tab-pane fade d-flex justify-content-center" id="groups-tab-pane" role="tabpanel"
-                aria-labelledby="groups-tab" tabindex="0">
-                <div id="groups_snippet" class="d-flex justify-content-center w-100"></div>
+            <div class="tab-pane fade" id="groups-tab-pane" role="tabpanel" aria-labelledby="groups-tab" tabindex="0">
+                <div class="d-flex justify-content-center mt-3 mb-3">
+                    <button id="createGroupBtn" class="btn btn-sm btn-primary">Create group</button>
+                </div>
+
+                <!-- -->
+                <div class="d-flex justify-content-center">
+                    <div class="w-75">
+                        <div class="accordion" id="accordionGroup_1">
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
+                                        Group #1
+                                    </button>
+                                </h2>
+                                <div id="collapse_1" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionGroup_1">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-6">Name</div>
+                                            <div class="col-6">Email</div>
+                                        </div>
+                                        ...
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!---->
+
             </div>
         </div>
 

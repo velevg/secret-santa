@@ -22,7 +22,10 @@
     <!-- RECAPTCHA -->
     <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
     <script>
-        // localStorage.clear();
+        // window.sessionMessage = "{if $smarty.session.message}{$smarty.session.message}{/if}";
+        // if (sessionMessage) {
+        //     showNotification('success', 'Success', sessionMessage, 'topCenter', 5000);
+        // }
         sessionStorage.clear();
     </script>
 </head>

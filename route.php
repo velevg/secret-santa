@@ -1,5 +1,6 @@
 <?php
 require('vendor/autoload.php');
+require('db.php');
 
 $router = new AltoRouter();
 $router->setBasePath('/secret-santa');
@@ -14,7 +15,17 @@ function isUserLoggedIn()
 $router->map('GET|POST', '/', function () use ($smarty) {
     if (isUserLoggedIn()) {
         if (!$_SESSION['csrf_token'] || empty($_SESSION['csrf_token'])) header('Location: /secret-santa/auth');
+        global $db;
+        $email = $_SESSION['email'];
         $csrf_token = $_SESSION['csrf_token'];
+
+        $query_check = $db->prepare("SELECT * FROM users WHERE email = :email");
+        $query_check->bindParam(":email", $email, PDO::PARAM_STR);
+        $query_check->execute();
+        $user = $query_check->fetch(PDO::FETCH_ASSOC);
+
+        $smarty->assign('username', $user['username']);
+        $smarty->assign('email', $user['email']);
         $smarty->assign('csrf_token', $csrf_token);
         $smarty->display('views/index.html');
     } else {

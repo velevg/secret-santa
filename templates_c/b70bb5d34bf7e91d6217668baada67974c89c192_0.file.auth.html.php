@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-12-25 12:14:13
+/* Smarty version 4.3.4, created on 2023-12-26 10:57:13
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\auth.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_65896405642e08_49063591',
+  'unifunc' => 'content_658aa379424257_86602506',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b70bb5d34bf7e91d6217668baada67974c89c192' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\auth.html',
-      1 => 1703501280,
+      1 => 1703584627,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_65896405642e08_49063591 (Smarty_Internal_Template $_smarty_tpl) {
+function content_658aa379424257_86602506 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -56,7 +56,12 @@ function content_65896405642e08_49063591 (Smarty_Internal_Template $_smarty_tpl)
 > -->
     <?php echo '<script'; ?>
 >
-        // localStorage.clear();
+        window.sessionMessage = "<?php if ($_SESSION['message']) {
+echo $_SESSION['message'];
+}?>";
+        if (sessionMessage) {
+            showNotification('success', 'Success', sessionMessage, 'topCenter', 5000);
+        }
         sessionStorage.clear();
     <?php echo '</script'; ?>
 >
