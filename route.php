@@ -46,15 +46,12 @@ $router->map('GET|POST', '/', function () use ($smarty) {
                 groups ON users.id = groups.owner
             LEFT JOIN
                 user_groups ON groups.id = user_groups.group_id
-            WHERE
-                users.id = :user_id
-                OR user_groups.user_id = :user_id;
+            WHERE 1
+            AND user_groups.user_id = :user_id;
         ");
         $query_groups->bindParam(":user_id", $user['id'], PDO::PARAM_INT);
         $query_groups->execute();
         $groups = $query_groups->fetchAll(PDO::FETCH_ASSOC);
-
-        print_r($groups);
 
         // $query_groups = $db->prepare("
         //     SELECT
