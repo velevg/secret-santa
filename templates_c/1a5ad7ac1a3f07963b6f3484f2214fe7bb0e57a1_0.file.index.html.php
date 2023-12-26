@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-12-26 14:26:39
+/* Smarty version 4.3.4, created on 2023-12-26 18:55:09
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\index.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_658ad48f853162_23819153',
+  'unifunc' => 'content_658b137d609461_51016715',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1a5ad7ac1a3f07963b6f3484f2214fe7bb0e57a1' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\index.html',
-      1 => 1703597197,
+      1 => 1703613308,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_658ad48f853162_23819153 (Smarty_Internal_Template $_smarty_tpl) {
+function content_658b137d609461_51016715 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -67,6 +67,15 @@ echo $_SESSION['message'];
 }?>";
             sessionStorage.setItem('messageShown', true);
         }
+
+        if (!sessionStorage.getItem('messageShown_add_group') && "<?php if ((isset($_SESSION['message_add_group']))) {
+echo $_SESSION['message_add_group'];
+}?>") {
+            window.sessionMessage_add_group = "<?php if ((isset($_SESSION['message_add_group']))) {
+echo $_SESSION['message_add_group'];
+}?>";
+            sessionStorage.setItem('messageShown_add_group', true);
+        }
     <?php echo '</script'; ?>
 >
 </head>
@@ -93,7 +102,7 @@ echo $_SESSION['message'];
 
         <div class="tab-content" id="myTabContent">
             <!--TAB GIFT-->
-            <div class="tab-pane fade show active d-flex justify-content-center" id="home-tab-pane" role="tabpanel"
+            <div class="tab-pane fade d-flex justify-content-center show active" id="home-tab-pane" role="tabpanel"
                 aria-labelledby="home-tab" tabindex="0">
                 <div class="mt-3">
                     Home
@@ -177,26 +186,53 @@ echo $_SESSION['message'];
                 <!-- -->
                 <div class="d-flex justify-content-center">
                     <div class="w-75">
-                        <div class="accordion" id="accordionGroup_1">
-
+                        <div class="accordion" id="accordionGroups">
+                            <?php if ((isset($_smarty_tpl->tpl_vars['groups']->value)) && count($_smarty_tpl->tpl_vars['groups']->value) > 0) {?>
+                            <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['groups']->value, 'group');
+$_smarty_tpl->tpl_vars['group']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['group']->value) {
+$_smarty_tpl->tpl_vars['group']->do_else = false;
+?>
+                            <?php if ((isset($_smarty_tpl->tpl_vars['group']->value['group_id'])) && (isset($_smarty_tpl->tpl_vars['group']->value['group_name']))) {?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
-                                        Group #1
+                                        data-bs-target="#collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value['group_id'];?>
+" aria-expanded="false"
+                                        aria-controls="collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value['group_id'];?>
+">
+                                        <?php echo $_smarty_tpl->tpl_vars['group']->value['group_name'];?>
+
                                     </button>
                                 </h2>
-                                <div id="collapse_1" class="accordion-collapse collapse"
-                                    data-bs-parent="#accordionGroup_1">
+                                <div id="collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value['group_id'];?>
+" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionGroups">
                                     <div class="accordion-body">
                                         <div class="row">
-                                            <div class="col-6">Name</div>
-                                            <div class="col-6">Email</div>
+                                            <?php if ((isset($_smarty_tpl->tpl_vars['group']->value['username'])) && (isset($_smarty_tpl->tpl_vars['group']->value['email']))) {?>
+                                            <div class="col-3">Name: <?php echo $_smarty_tpl->tpl_vars['group']->value['username'];?>
+</div>
+                                            <div class="col-7">Email: <?php echo $_smarty_tpl->tpl_vars['group']->value['email'];?>
+</div>
+                                            <?php if ($_smarty_tpl->tpl_vars['group']->value['owner_id'] == $_smarty_tpl->tpl_vars['user_id']->value) {?>
+                                            <div class="col-2">
+                                                <input type="button" class="btn btn-sm btn-danger" value="X"
+                                                    onclick="console.log(`<?php echo $_smarty_tpl->tpl_vars['group']->value['user_group_id'];?>
+`)" />
+                                            </div>
+                                            <?php }?>
+                                            <?php }?>
                                         </div>
-                                        ...
                                     </div>
                                 </div>
                             </div>
+                            <?php }?>
+                            <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                            <?php }?>
 
                         </div>
                     </div>

@@ -24,6 +24,61 @@ $router->map('GET|POST', '/', function () use ($smarty) {
         $query_check->execute();
         $user = $query_check->fetch(PDO::FETCH_ASSOC);
 
+        // kogato usera e owner da vijda X btn
+        // da se pokazvat grupi kudeto id-to na usera prisustva v dadena grupa
+
+        // show only the groups where the $__SESSION['user_id'] exists in user_groups.user_id
+        // also query the owner id which is groups.owner
+
+        $query_groups = $db->prepare("
+            SELECT
+                users.id AS user_id,
+                users.username,
+                users.email,
+                groups.id AS group_id,
+                groups.group_name,
+                groups.owner AS owner_id,
+                user_groups.id AS user_group_id,
+                user_groups.user_id AS user_group_user_id
+            FROM
+                users
+            LEFT JOIN
+                groups ON users.id = groups.owner
+            LEFT JOIN
+                user_groups ON groups.id = user_groups.group_id
+            WHERE
+                users.id = :user_id
+                OR user_groups.user_id = :user_id;
+        ");
+        $query_groups->bindParam(":user_id", $user['id'], PDO::PARAM_INT);
+        $query_groups->execute();
+        $groups = $query_groups->fetchAll(PDO::FETCH_ASSOC);
+
+        print_r($groups);
+
+        // $query_groups = $db->prepare("
+        //     SELECT
+        //         users.id as user_id,
+        //         users.username,
+        //         users.email,
+        //         groups.id,
+        //         groups.group_name,
+        //         groups.owner,
+        //         groups.user_id
+        //     FROM
+        //         users
+        //     LEFT JOIN
+        //         groups ON users.id = groups.owner
+        //     WHERE
+        //         groups.user_id = :user_id
+        // ");
+
+        // $query_groups->bindParam(":user_id", $_SESSION['user_id'], PDO::PARAM_INT);
+        // $query_groups->execute();
+        // $groups = $query_groups->fetchAll(PDO::FETCH_ASSOC);
+
+        $smarty->assign('user_id', $_SESSION['user_id']);
+        $smarty->assign('groups', $groups);
         $smarty->assign('username', $user['username']);
         $smarty->assign('email', $user['email']);
         $smarty->assign('csrf_token', $csrf_token);

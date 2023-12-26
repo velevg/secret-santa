@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    sessionStorage.clear();
+    localStorage.clear();
     // === CARD FLIP
     $('#flip-card-btn-turn-to-back').on('click', function () {
         $('#flip-card').toggleClass('do-flip');

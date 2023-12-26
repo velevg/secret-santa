@@ -1,5 +1,11 @@
 $(document).ready(function () {
     {
+        const lastActiveTab = sessionStorage.getItem('lastActiveTab');
+        if (lastActiveTab) {
+            $(`#${lastActiveTab}`).tab('show');
+            showTabContent(`${lastActiveTab}-pane`);
+        }
+
         if ($("#home-tab").hasClass("active")) {
             if ($("#home-tab-pane").hasClass("d-none")) {
                 $("#home-tab-pane").removeClass("d-none");
@@ -7,24 +13,25 @@ $(document).ready(function () {
             $("#profile-tab-pane").addClass("d-none");
             $("#groups-tab-pane").addClass("d-none");
         }
+
         $("#home-tab").on('click', function () {
-            $("#home-tab-pane").removeClass("d-none");
-            $("#profile-tab-pane").addClass("d-none");
-            $("#groups-tab-pane").addClass("d-none");
+            sessionStorage.setItem('lastActiveTab', 'home-tab');
+            showTabContent('home-tab-pane');
         });
-
         $("#profile-tab").on('click', function () {
-            $("#home-tab-pane").addClass("d-none");
-            $("#profile-tab-pane").removeClass("d-none");
-            $("#groups-tab-pane").addClass("d-none");
+            sessionStorage.setItem('lastActiveTab', 'profile-tab');
+            showTabContent('profile-tab-pane');
         });
-
         $("#groups-tab").on('click', function () {
-            $("#home-tab-pane").addClass("d-none");
-            $("#profile-tab-pane").addClass("d-none");
-            $("#groups-tab-pane").removeClass("d-none");
+            sessionStorage.setItem('lastActiveTab', 'groups-tab');
+            showTabContent('groups-tab-pane');
         });
 
+        function showTabContent(tabPaneId) {
+            $(".tab-pane").addClass("d-none");
+            $(`#${tabPaneId}`).removeClass("d-none");
+        }
+        //
         $("#old_password").on('input', function () {
             $("#old_password").attr("type", "password");
         })
@@ -79,9 +86,15 @@ $(document).ready(function () {
         showNotification('success', 'Success', message, 'topCenter', 5000);
     }
 
+    let sessionMessage_add_group = window.sessionMessage_add_group;
+    if (sessionMessage_add_group) {
+        showNotification('success', 'Success', sessionMessage_add_group, 'topCenter', 5000);
+    }
+
     // === VALIDATION
     // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[~`%^&*()+}{[\]|"':;?/>]).{7,}$/; // (?=.*[a-z]): At least one lowercase letter. (?=.*[A-Z]): At least one uppercase letter. (?=.*\d): At least one digit. (?!.*[~%^&*()+}{[]|"':;?/>])`: Negative lookahead assertion to exclude the specified symbols. .{8,}: Minimum length of 8 characters.
+    let csrfToken = $("#editProfileCsrf").val();
 
     // Edit Profile
     let editProfileBtnClicks = 0;
@@ -93,7 +106,6 @@ $(document).ready(function () {
         let newPassword = $("#new_password").val();
         let confirmNewPassword = $("#confirm_new_password").val();
         // let csrfToken = $('meta[name="csrf-token"]').attr('content');// interesno
-        let csrfToken = $("#editProfileCsrf").val();
 
         if (success && editProfileBtnClicks <= 3 && csrfToken.length === 64) {
             if (oldPassword != '' && newPassword != '' && confirmNewPassword != '') {
@@ -180,7 +192,29 @@ $(document).ready(function () {
                 }, true],
                 ['<input type="button" id="createGroup" value="Create">', 'click', function (instance, toast, input, e) {
                     console.log(newGroupName);
-                    // createGroup(newGroupName);
+                    createGroup(newGroupName);
+                    // let append = `
+                    //     <div class="accordion-item">
+                    //         <h2 class="accordion-header">
+                    //             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    //                 data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
+                    //                 ${newGroupName}
+                    //             </button>
+                    //         </h2>
+                    //         <div id="collapse_1" class="accordion-collapse collapse"
+                    //             data-bs-parent="#accordionGroups">
+                    //             <div class="accordion-body">
+                    //                 <div class="row">
+                    //                     <div class="col-4">Name: </div>
+                    //                     <div class="col-8">Email: </div>
+                    //                     <div class="col-3"><input type="button" class="btn btn-sm btn-danger"/></div>
+                    //                 </div>
+                    //             </div>
+                    //         </div>
+                    //     </div>
+                    // `;
+
+                    // $("#accordionGroups").append(append);
                 }]
             ]
         });
@@ -191,7 +225,8 @@ $(document).ready(function () {
                 url: "controllers/groups/addGroupAjax.php",
                 data: {
                     add_group: true,
-                    group_name: newGroupName
+                    group_name: newGroupName,
+                    csrf_token: csrfToken
                 },
                 success: function (response) {
                     if (response.redirect) {
@@ -199,6 +234,7 @@ $(document).ready(function () {
                     }
                     if (response.success == true) {
                         showNotification('success', '', response.message, 'topCenter', 5000);
+                        window.location.reload();
                     } else {
                         showNotification('error', '', response.message, 'topCenter', 5000);
                     }
