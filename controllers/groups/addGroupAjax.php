@@ -31,14 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_group']) && isset
         $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->execute();
 
-        // $insertGroups = "INSERT INTO groups (group_name, owner, user_id) VALUES (:group_name, :user_id, :user_id)";
-        // $stmt = $db->prepare($insertGroups);
-        // $stmt->bindParam(':group_name', $group_name, PDO::PARAM_STR);
-        // $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
-        // $stmt->execute();
-
-        // $combinedGroupsId = $db->lastInsertId();
-
         $_SESSION['message_add_group'] = 'Group created!';
         $response['message'] = 'Group created!';
     } else {

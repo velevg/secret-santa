@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     {
         const lastActiveTab = sessionStorage.getItem('lastActiveTab');
         if (lastActiveTab) {
@@ -244,5 +245,69 @@ $(document).ready(function () {
                 }
             });
         }
+    })
+
+    let userGroupDelete;
+    let userRowDelete;
+    $(".deleteUser").each(function () {
+        $(this).on('click', function () {
+            userGroupDelete = $(this).parent().parent().parent().parent().parent();
+            userRowDelete = $(this).parent().parent().parent();
+            let userId = $(this).data('user-id');
+            let groupId = $(this).data('group-id');
+            console.log(userGroupDelete);
+            deleteUserFromGroup(userId, groupId);
+        })
+    })
+
+    function deleteUserFromGroup(userId, groupId) {
+        $.ajax({
+            type: 'POST',
+            url: 'controllers/groups/deleteUserFromGroup.php',
+            data: {
+                delete_user_from_group: true,
+                userId: userId,
+                groupId: groupId,
+                csrf_token: csrfToken
+            },
+            success: function (response) {
+                if (response.success) {
+                    showNotification('success', '', response.message, 'topCenter', 5000);
+                    userGroupDelete.remove();
+                } else {
+                    showNotification('error', '', response.message, 'topCenter', 5000);
+                }
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error deleting user:', error);
+            }
+        });
+    }
+
+    $("#searchUser").on('input', function () {
+        let searchValue = $(this).val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'controllers/groups/searchUser.php',
+            data: {
+                search_user: true,
+                searchValue: searchValue,
+                csrf_token: csrfToken
+            },
+            success: function (response) {
+                console.log(response.users);
+                if (response.success) {
+                    // response.data.foreach(function (user) {
+                        // console.log(user);
+                    // })
+                    // $("#searchresults").html(response);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error searching users:', error);
+            }
+        })
     })
 });

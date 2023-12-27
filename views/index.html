@@ -133,42 +133,60 @@
                     <button id="createGroupBtn" class="btn btn-sm btn-primary">Create group</button>
                 </div>
 
+                    <div class="d-flex justify-content-center mt-3 mb-3">
+                        <div class="row mx-auto w-lg-50">
+                            <div class="col-4">
+                                <select name="" id="groups" class="form-select">
+                                    {foreach $group_users as $group}
+                                    <option value="{$group.0.group_id}" class="form-select">{$group.0.group_name}
+                                    </option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" id="searchUser" class="form-control" placeholder="Search user by email">
+                                <ul id="searchresults" class="list-group"></ul>
+                            </div>
+                            <div class="col-1 d-flex justify-content-center align-items-center">
+                                <button id="addUserBtn" class="btn btn-sm btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
                 <!-- -->
                 <div class="d-flex justify-content-center">
                     <div class="w-75">
                         <div class="accordion" id="accordionGroups">
-                            {if isset($groups) && count($groups) > 0}
-                            {foreach $groups as $group}
-                            {if isset($group['group_id']) && isset($group['group_name'])}
+
+                            {foreach $group_users as $group}
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse_{$group['group_id']}" aria-expanded="false"
-                                        aria-controls="collapse_{$group['group_id']}">
-                                        {$group['group_name']}
+                                        data-bs-target="#collapse_{$group.0.group_id}" aria-expanded="false"
+                                        aria-controls="collapse_{$group.0.group_id}">
+                                        {$group.0.group_name}
                                     </button>
                                 </h2>
-                                <div id="collapse_{$group['group_id']}" class="accordion-collapse collapse"
+                                <div id="collapse_{$group.0.group_id}" class="accordion-collapse collapse"
                                     data-bs-parent="#accordionGroups">
                                     <div class="accordion-body">
+                                        {foreach $group as $user}
                                         <div class="row">
-                                            {if isset($group['username']) && isset($group['email'])}
-                                            <div class="col-3">Name: {$group['username']}</div>
-                                            <div class="col-7">Email: {$group['email']}</div>
-                                            {if $group['owner_id'] == $user_id}
+                                            <div class="col-3">Name: {$user.username}</div>
+                                            <div class="col-7">Email: {$user.email}</div>
                                             <div class="col-2">
-                                                <input type="button" class="btn btn-sm btn-danger" value="X"
-                                                    onclick="console.log(`{$group['user_group_id']}`)" />
+                                                {if $user.owner_id == $user_id || $user_id == $user.id}
+                                                <input type="button" class="btn btn-sm btn-danger deleteUser" value="X"
+                                                    data-user-id="{$user.id}" data-owner-id="{$user.owner_id}"
+                                                    data-group-id="{$group.0.group_id}" />
+                                                {/if}
                                             </div>
-                                            {/if}
-                                            {/if}
                                         </div>
+                                        {/foreach}
                                     </div>
                                 </div>
                             </div>
-                            {/if}
                             {/foreach}
-                            {/if}
 
                         </div>
                     </div>

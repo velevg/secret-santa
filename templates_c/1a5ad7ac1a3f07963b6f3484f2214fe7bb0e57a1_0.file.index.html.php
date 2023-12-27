@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-12-26 19:01:39
+/* Smarty version 4.3.4, created on 2023-12-27 19:40:56
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\index.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_658b150328e1a0_13603164',
+  'unifunc' => 'content_658c6fb8c893b3_44915083',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1a5ad7ac1a3f07963b6f3484f2214fe7bb0e57a1' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\index.html',
-      1 => 1703613647,
+      1 => 1703702454,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_658b150328e1a0_13603164 (Smarty_Internal_Template $_smarty_tpl) {
+function content_658c6fb8c893b3_44915083 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -183,56 +183,92 @@ echo $_SESSION['message_add_group'];
                     <button id="createGroupBtn" class="btn btn-sm btn-primary">Create group</button>
                 </div>
 
-                <!-- -->
-                <div class="d-flex justify-content-center">
-                    <div class="w-75">
-                        <div class="accordion" id="accordionGroups">
-                            <?php if ((isset($_smarty_tpl->tpl_vars['groups']->value)) && count($_smarty_tpl->tpl_vars['groups']->value) > 0) {?>
-                            <?php
-$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['groups']->value, 'group');
+                    <div class="d-flex justify-content-center mt-3 mb-3">
+                        <div class="row mx-auto w-lg-50">
+                            <div class="col-4">
+                                <select name="" id="groups" class="form-select">
+                                    <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['group_users']->value, 'group');
 $_smarty_tpl->tpl_vars['group']->do_else = true;
 if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['group']->value) {
 $_smarty_tpl->tpl_vars['group']->do_else = false;
 ?>
-                            <?php if ((isset($_smarty_tpl->tpl_vars['group']->value['group_id'])) && (isset($_smarty_tpl->tpl_vars['group']->value['group_name']))) {?>
+                                    <option value="<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
+" class="form-select"><?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_name'];?>
+
+                                    </option>
+                                    <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                                </select>
+                            </div>
+                            <div class="col-7">
+                                <input type="text" id="searchUser" class="form-control" placeholder="Search user by email">
+                                <ul id="searchresults" class="list-group"></ul>
+                            </div>
+                            <div class="col-1 d-flex justify-content-center align-items-center">
+                                <button id="addUserBtn" class="btn btn-sm btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- -->
+                <div class="d-flex justify-content-center">
+                    <div class="w-75">
+                        <div class="accordion" id="accordionGroups">
+
+                            <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['group_users']->value, 'group');
+$_smarty_tpl->tpl_vars['group']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['group']->value) {
+$_smarty_tpl->tpl_vars['group']->do_else = false;
+?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value['group_id'];?>
+                                        data-bs-target="#collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
 " aria-expanded="false"
-                                        aria-controls="collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value['group_id'];?>
+                                        aria-controls="collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
 ">
-                                        <?php echo $_smarty_tpl->tpl_vars['group']->value['group_name'];?>
+                                        <?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_name'];?>
 
                                     </button>
                                 </h2>
-                                <div id="collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value['group_id'];?>
+                                <div id="collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
 " class="accordion-collapse collapse"
                                     data-bs-parent="#accordionGroups">
                                     <div class="accordion-body">
+                                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['group']->value, 'user');
+$_smarty_tpl->tpl_vars['user']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['user']->value) {
+$_smarty_tpl->tpl_vars['user']->do_else = false;
+?>
                                         <div class="row">
-                                            <?php if ((isset($_smarty_tpl->tpl_vars['group']->value['username'])) && (isset($_smarty_tpl->tpl_vars['group']->value['email']))) {?>
-                                            <div class="col-3">Name: <?php echo $_smarty_tpl->tpl_vars['group']->value['username'];?>
+                                            <div class="col-3">Name: <?php echo $_smarty_tpl->tpl_vars['user']->value['username'];?>
 </div>
-                                            <div class="col-7">Email: <?php echo $_smarty_tpl->tpl_vars['group']->value['email'];?>
+                                            <div class="col-7">Email: <?php echo $_smarty_tpl->tpl_vars['user']->value['email'];?>
 </div>
-                                            <?php if ($_smarty_tpl->tpl_vars['group']->value['owner_id'] == $_smarty_tpl->tpl_vars['user_id']->value) {?>
                                             <div class="col-2">
-                                                <input type="button" class="btn btn-sm btn-danger" value="X"
-                                                    onclick="console.log(`<?php echo $_smarty_tpl->tpl_vars['group']->value['user_group_id'];?>
-`)" />
+                                                <?php if ($_smarty_tpl->tpl_vars['user']->value['owner_id'] == $_smarty_tpl->tpl_vars['user_id']->value || $_smarty_tpl->tpl_vars['user_id']->value == $_smarty_tpl->tpl_vars['user']->value['id']) {?>
+                                                <input type="button" class="btn btn-sm btn-danger deleteUser" value="X"
+                                                    data-user-id="<?php echo $_smarty_tpl->tpl_vars['user']->value['id'];?>
+" data-owner-id="<?php echo $_smarty_tpl->tpl_vars['user']->value['owner_id'];?>
+"
+                                                    data-group-id="<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
+" />
+                                                <?php }?>
                                             </div>
-                                            <?php }?>
-                                            <?php }?>
                                         </div>
+                                        <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                                     </div>
                                 </div>
                             </div>
-                            <?php }?>
                             <?php
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
-                            <?php }?>
 
                         </div>
                     </div>

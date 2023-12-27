@@ -27,7 +27,6 @@ CREATE TABLE user_groups (
     FOREIGN KEY (group_id) REFERENCES groups(id),
     FOREIGN KEY (selected_user) REFERENCES users(id)
 );
-
 -- CREATE TABLE groups (
 --     id INT PRIMARY KEY AUTO_INCREMENT,
 --     group_name VARCHAR(50) NOT NULL,
@@ -40,3 +39,4 @@ CREATE TABLE user_groups (
 --     FOREIGN KEY (user_id) REFERENCES users(id),
 --     FOREIGN KEY (selected_user) REFERENCES users(id)
 -- );
+
