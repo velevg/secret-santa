@@ -82,14 +82,19 @@ $(document).ready(function () {
                 console.error('Invalid notification type:', type);
         }
     }
+
+    // === SESSION MESSAGES
     let message = window.sessionMessage;
     if (message) {
         showNotification('success', 'Success', message, 'topCenter', 5000);
     }
-
     let sessionMessage_add_group = window.sessionMessage_add_group;
     if (sessionMessage_add_group) {
         showNotification('success', 'Success', sessionMessage_add_group, 'topCenter', 5000);
+    }
+    let messageShown_add_user = window.messageShown_add_user;
+    if (messageShown_add_user) {
+        showNotification('success', 'Success', messageShown_add_user, 'topCenter', 5000);
     }
 
     // === VALIDATION
@@ -192,7 +197,6 @@ $(document).ready(function () {
                     newGroupName = input.value
                 }, true],
                 ['<input type="button" id="createGroup" value="Create">', 'click', function (instance, toast, input, e) {
-                    console.log(newGroupName);
                     createGroup(newGroupName);
                     // let append = `
                     //     <div class="accordion-item">
@@ -247,20 +251,62 @@ $(document).ready(function () {
         }
     })
 
-    let userGroupDelete;
-    let userRowDelete;
     $(".deleteUser").each(function () {
         $(this).on('click', function () {
-            userGroupDelete = $(this).parent().parent().parent().parent().parent();
-            userRowDelete = $(this).parent().parent().parent();
             let userId = $(this).data('user-id');
             let groupId = $(this).data('group-id');
-            console.log(userGroupDelete);
-            deleteUserFromGroup(userId, groupId);
+            let ownerId = $(this).data('owner-id');
+
+            if (userId == ownerId) {
+                iziToast.question({
+                    timeout: 20000,
+                    close: false,
+                    overlay: true,
+                    zindex: 999,
+                    message: 'You are the owner of the group! Deleting will also delete all users in the group. Are you sure? You can instead change the owner of the group.',
+                    position: 'center',
+                    buttons: [
+                        ['<button><b>YES</b></button>', function (instance, toast) {
+
+                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                            deleteUserFromGroup(userId, ownerId, groupId);
+
+                        }, true],
+                        ['<button>NO</button>', function (instance, toast) {
+
+                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                        }],
+                    ],
+                });
+
+            } else {
+                iziToast.question({
+                    timeout: 20000,
+                    close: false,
+                    overlay: true,
+                    zindex: 999,
+                    message: 'Are you sure you want to delete this user from the group?',
+                    position: 'center',
+                    buttons: [
+                        ['<button><b>YES</b></button>', function (instance, toast) {
+
+                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+                            deleteUserFromGroup(userId, ownerId, groupId);
+
+                        }, true],
+                        ['<button>NO</button>', function (instance, toast) {
+
+                            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+                        }],
+                    ],
+                });
+            }
         })
     })
 
-    function deleteUserFromGroup(userId, groupId) {
+    function deleteUserFromGroup(userId, ownerId, groupId) {
         $.ajax({
             type: 'POST',
             url: 'controllers/groups/deleteUserFromGroup.php',
@@ -268,12 +314,13 @@ $(document).ready(function () {
                 delete_user_from_group: true,
                 userId: userId,
                 groupId: groupId,
+                ownerId: ownerId,
                 csrf_token: csrfToken
             },
             success: function (response) {
                 if (response.success) {
                     showNotification('success', '', response.message, 'topCenter', 5000);
-                    userGroupDelete.remove();
+                    window.location.reload();
                 } else {
                     showNotification('error', '', response.message, 'topCenter', 5000);
                 }
@@ -284,6 +331,9 @@ $(document).ready(function () {
             }
         });
     }
+
+
+
 
     $("#searchUser").on('input', function () {
         let searchValue = $(this).val();
@@ -297,12 +347,17 @@ $(document).ready(function () {
                 csrf_token: csrfToken
             },
             success: function (response) {
-                console.log(response.users);
                 if (response.success) {
-                    // response.data.foreach(function (user) {
-                        // console.log(user);
-                    // })
-                    // $("#searchresults").html(response);
+                    $("#searchResultsUl").empty();
+                    let users = response.users;
+                    users.forEach(user => {
+                        $("#searchResultsUl").append(`<button class="list-group-item list-group-item-action" data-user-email="${user.email}">${user.email}</button>`);
+                    });
+                    $(document).on('click', 'button.list-group-item', function () {
+                        let userEmail = $(this).data('user-email');
+                        $("#searchUser").val(userEmail);
+                        $("#searchResultsUl").empty();
+                    });
                 }
             },
             error: function (xhr, status, error) {
@@ -310,4 +365,35 @@ $(document).ready(function () {
             }
         })
     })
+
+    $("#addUserBtn").on('click', function () {
+        let selectedGroup = $("#groups").val();
+        let selectedUser = $("#searchUser").val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'controllers/groups/addUserToGroup.php',
+            data: {
+                add_user_to_group: true,
+                selectedGroup: selectedGroup,
+                selectedUser: selectedUser,
+                csrf_token: csrfToken
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    response.message = sessionStorage.setItem('messageShown_add_group', true);
+                    window.location.reload();
+                } else {
+                    showNotification('error', '', response.message, 'topCenter', 5000);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error adding user:', error);
+            }
+        })
+
+    })
+
+    console.log(sessionStorage);
 });

@@ -15,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_group']) && isset
     if (empty($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) $success = false;
 
     $group_name = $_POST['group_name'];
+    $approved = 1;
 
     if ($success) {
         $groups = "INSERT INTO groups (group_name, owner) VALUES (:group_name, :user_id)";
@@ -25,8 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_group']) && isset
 
         $group_id = $db->lastInsertId();
 
-        $user_groups = "INSERT INTO user_groups (group_id, user_id) VALUES (:group_id, :user_id)";
+        $user_groups = "INSERT INTO user_groups (group_id, user_id, approved) VALUES (:group_id, :user_id, :approved)";
         $stmt = $db->prepare($user_groups);
+        $stmt->bindParam(':approved', $approved, PDO::PARAM_INT);
         $stmt->bindParam(':group_id', $group_id, PDO::PARAM_INT);
         $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->execute();

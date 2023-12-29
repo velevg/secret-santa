@@ -26,13 +26,15 @@ $router->map('GET|POST', '/', function () use ($smarty) {
 
         $query_groups = $db->prepare("
             SELECT
-                groups.id
+                groups.id,
+                user_groups.approved
             FROM
                 groups
             LEFT JOIN
                 user_groups ON groups.id = user_groups.group_id
             WHERE 1
             AND user_groups.user_id = :user_id
+            AND user_groups.approved = 1
             AND groups.deleted IS NULL
             AND user_groups.deleted IS NULL;
         ");

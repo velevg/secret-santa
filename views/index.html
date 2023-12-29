@@ -32,6 +32,11 @@
             window.sessionMessage_add_group = "{if isset($smarty.session.message_add_group)}{$smarty.session.message_add_group}{/if}";
             sessionStorage.setItem('messageShown_add_group', true);
         }
+
+        if (!sessionStorage.getItem('messageShown_add_user') && "{if isset($smarty.session.messageShown_add_user)}{$smarty.session.messageShown_add_user}{/if}") {
+            window.messageShown_add_user = "{if isset($smarty.session.messageShown_add_user)}{$smarty.session.messageShown_add_user}{/if}";
+            sessionStorage.setItem('messageShown_add_user', true); // ako dobavim 2ri 4ovek oba4e iskame pak da go vidim, a taka ne go vijdame :s
+        }
     </script>
 </head>
 
@@ -133,26 +138,27 @@
                     <button id="createGroupBtn" class="btn btn-sm btn-primary">Create group</button>
                 </div>
 
-                    <div class="d-flex justify-content-center mt-3 mb-3">
-                        <div class="row mx-auto w-lg-50">
-                            <div class="col-4">
-                                <select name="" id="groups" class="form-select">
-                                    {foreach $group_users as $group}
-                                    <option value="{$group.0.group_id}" class="form-select">{$group.0.group_name}
-                                    </option>
-                                    {/foreach}
-                                </select>
-                            </div>
-                            <div class="col-7">
-                                <input type="text" id="searchUser" class="form-control" placeholder="Search user by email">
-                                <ul id="searchresults" class="list-group"></ul>
-                            </div>
-                            <div class="col-1 d-flex justify-content-center align-items-center">
-                                <button id="addUserBtn" class="btn btn-sm btn-primary">Add</button>
-                            </div>
+                {if isset($group_users) && count($group_users) > 0}
+                <div class="d-flex justify-content-center mt-3 mb-3">
+                    <div class="row mx-auto w-lg-50">
+                        <div class="col-4">
+                            <select name="" id="groups" class="form-select">
+                                {foreach $group_users as $group}
+                                <option value="{$group.0.group_id}" class="form-select">{$group.0.group_name}
+                                </option>
+                                {/foreach}
+                            </select>
+                        </div>
+                        <div class="col-7">
+                            <input type="text" id="searchUser" class="form-control" placeholder="Search user by email">
+                            <ul id="searchResultsUl" class="list-group position-absolute" style="z-index: 99;"></ul>
+                        </div>
+                        <div class="col-1 d-flex justify-content-center align-items-center">
+                            <button id="addUserBtn" class="btn btn-sm btn-primary">Add</button>
                         </div>
                     </div>
-
+                </div>
+                {/if}
                 <!-- -->
                 <div class="d-flex justify-content-center">
                     <div class="w-75">

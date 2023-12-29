@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-12-27 19:40:56
+/* Smarty version 4.3.4, created on 2023-12-29 10:50:36
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\index.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_658c6fb8c893b3_44915083',
+  'unifunc' => 'content_658e966c608c57_44945235',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1a5ad7ac1a3f07963b6f3484f2214fe7bb0e57a1' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\index.html',
-      1 => 1703702454,
+      1 => 1703843435,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_658c6fb8c893b3_44915083 (Smarty_Internal_Template $_smarty_tpl) {
+function content_658e966c608c57_44945235 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -75,6 +75,15 @@ echo $_SESSION['message_add_group'];
 echo $_SESSION['message_add_group'];
 }?>";
             sessionStorage.setItem('messageShown_add_group', true);
+        }
+
+        if (!sessionStorage.getItem('messageShown_add_user') && "<?php if ((isset($_SESSION['messageShown_add_user']))) {
+echo $_SESSION['messageShown_add_user'];
+}?>") {
+            window.messageShown_add_user = "<?php if ((isset($_SESSION['messageShown_add_user']))) {
+echo $_SESSION['messageShown_add_user'];
+}?>";
+            sessionStorage.setItem('messageShown_add_user', true); // ako dobavim 2ri 4ovek oba4e iskame pak da go vidim, a taka ne go vijdame :s
         }
     <?php echo '</script'; ?>
 >
@@ -183,35 +192,36 @@ echo $_SESSION['message_add_group'];
                     <button id="createGroupBtn" class="btn btn-sm btn-primary">Create group</button>
                 </div>
 
-                    <div class="d-flex justify-content-center mt-3 mb-3">
-                        <div class="row mx-auto w-lg-50">
-                            <div class="col-4">
-                                <select name="" id="groups" class="form-select">
-                                    <?php
+                <?php if ((isset($_smarty_tpl->tpl_vars['group_users']->value)) && count($_smarty_tpl->tpl_vars['group_users']->value) > 0) {?>
+                <div class="d-flex justify-content-center mt-3 mb-3">
+                    <div class="row mx-auto w-lg-50">
+                        <div class="col-4">
+                            <select name="" id="groups" class="form-select">
+                                <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['group_users']->value, 'group');
 $_smarty_tpl->tpl_vars['group']->do_else = true;
 if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['group']->value) {
 $_smarty_tpl->tpl_vars['group']->do_else = false;
 ?>
-                                    <option value="<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
+                                <option value="<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
 " class="form-select"><?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_name'];?>
 
-                                    </option>
-                                    <?php
+                                </option>
+                                <?php
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
-                                </select>
-                            </div>
-                            <div class="col-7">
-                                <input type="text" id="searchUser" class="form-control" placeholder="Search user by email">
-                                <ul id="searchresults" class="list-group"></ul>
-                            </div>
-                            <div class="col-1 d-flex justify-content-center align-items-center">
-                                <button id="addUserBtn" class="btn btn-sm btn-primary">Add</button>
-                            </div>
+                            </select>
+                        </div>
+                        <div class="col-7">
+                            <input type="text" id="searchUser" class="form-control" placeholder="Search user by email">
+                            <ul id="searchResultsUl" class="list-group position-absolute" style="z-index: 99;"></ul>
+                        </div>
+                        <div class="col-1 d-flex justify-content-center align-items-center">
+                            <button id="addUserBtn" class="btn btn-sm btn-primary">Add</button>
                         </div>
                     </div>
-
+                </div>
+                <?php }?>
                 <!-- -->
                 <div class="d-flex justify-content-center">
                     <div class="w-75">
