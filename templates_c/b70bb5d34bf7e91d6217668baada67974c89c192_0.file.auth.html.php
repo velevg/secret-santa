@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-12-27 18:50:24
+/* Smarty version 4.3.4, created on 2023-12-30 09:12:06
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\auth.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_658c63e0120df0_43002989',
+  'unifunc' => 'content_658fd0d699c063_79402469',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b70bb5d34bf7e91d6217668baada67974c89c192' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\auth.html',
-      1 => 1703597290,
+      1 => 1703923842,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_658c63e0120df0_43002989 (Smarty_Internal_Template $_smarty_tpl) {
+function content_658fd0d699c063_79402469 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -54,14 +54,20 @@ function content_658c63e0120df0_43002989 (Smarty_Internal_Template $_smarty_tpl)
     <!-- <?php echo '<script'; ?>
  src="https://www.google.com/recaptcha/api.js" async defer><?php echo '</script'; ?>
 > -->
+    <?php if ((isset($_SESSION['message']))) {?>
     <?php echo '<script'; ?>
 >
-        // window.sessionMessage = "<?php if ($_SESSION['message']) {
+        window.sessionMessage = "<?php if ($_SESSION['message']) {
 echo $_SESSION['message'];
 }?>";
-        // if (sessionMessage) {
-        //     showNotification('success', 'Success', sessionMessage, 'topCenter', 5000);
-        // }
+        if (sessionMessage) {
+            showNotification('success', 'Success', sessionMessage, 'topCenter', 5000);
+        }
+    <?php echo '</script'; ?>
+>
+    <?php }?>
+    <?php echo '<script'; ?>
+>
         sessionStorage.clear();
     <?php echo '</script'; ?>
 >

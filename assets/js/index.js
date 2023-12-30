@@ -332,38 +332,50 @@ $(document).ready(function () {
         });
     }
 
-
-
-
     $("#searchUser").on('input', function () {
+        let success = true;
+        const searchRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[~`%^&*()+}{[\]|"':;?/>]).{7,}$/; // (?=.*[a-z]): At least one lowercase letter. (?=.*[A-Z]): At least one uppercase letter. (?=.*\d): At least one digit. (?!.*[~%^&*()+}{[]|"':;?/>])`: Negative lookahead assertion to exclude the specified symbols. .{8,}: Minimum length of 8 characters.
         let searchValue = $(this).val();
 
-        $.ajax({
-            type: 'POST',
-            url: 'controllers/groups/searchUser.php',
-            data: {
-                search_user: true,
-                searchValue: searchValue,
-                csrf_token: csrfToken
-            },
-            success: function (response) {
-                if (response.success) {
-                    $("#searchResultsUl").empty();
-                    let users = response.users;
-                    users.forEach(user => {
-                        $("#searchResultsUl").append(`<button class="list-group-item list-group-item-action" data-user-email="${user.email}">${user.email}</button>`);
-                    });
-                    $(document).on('click', 'button.list-group-item', function () {
-                        let userEmail = $(this).data('user-email');
-                        $("#searchUser").val(userEmail);
+        if (!searchRegex.test(searchValue)) {
+            success = false;
+            $("#searchResultsUl").empty();
+            return;
+        }
+
+        if (searchValue.length == 0 || searchValue.length == 1) {
+            $("#searchResultsUl").empty();
+            return;
+        }
+
+        if (searchValue.length > 1 && success) {
+            $.ajax({
+                type: 'POST',
+                url: 'controllers/groups/searchUser.php',
+                data: {
+                    search_user: true,
+                    searchValue: searchValue,
+                    csrf_token: csrfToken
+                },
+                success: function (response) {
+                    if (response.success) {
                         $("#searchResultsUl").empty();
-                    });
+                        let users = response.users;
+                        users.forEach(user => {
+                            $("#searchResultsUl").append(`<button class="list-group-item list-group-item-action" data-user-email="${user.email}">${user.email}</button>`);
+                        });
+                        $(document).on('click', 'button.list-group-item', function () {
+                            let userEmail = $(this).data('user-email');
+                            $("#searchUser").val(userEmail);
+                            $("#searchResultsUl").empty();
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error searching users:', error);
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error searching users:', error);
-            }
-        })
+            })
+        }
     })
 
     $("#addUserBtn").on('click', function () {

@@ -21,11 +21,15 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- RECAPTCHA -->
     <!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
+    {if isset($smarty.session.message)}
     <script>
-        // window.sessionMessage = "{if $smarty.session.message}{$smarty.session.message}{/if}";
-        // if (sessionMessage) {
-        //     showNotification('success', 'Success', sessionMessage, 'topCenter', 5000);
-        // }
+        window.sessionMessage = "{if $smarty.session.message}{$smarty.session.message}{/if}";
+        if (sessionMessage) {
+            showNotification('success', 'Success', sessionMessage, 'topCenter', 5000);
+        }
+    </script>
+    {/if}
+    <script>
         sessionStorage.clear();
     </script>
 </head>

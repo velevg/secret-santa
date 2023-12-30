@@ -11,7 +11,9 @@ $response = [
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['search_user']) && isset($_POST['csrf_token']) && isset($_POST['searchValue'])) {
     $success = true;
+
     if (empty($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) $success = false;
+    if (mb_strlen($_POST['searchValue']) <= 1) $success = false;
 
     if ($success) {
         $searchValue = $_POST['searchValue'];

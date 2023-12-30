@@ -44,8 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_user_to_group']) 
                 $response['success'] = true;
                 $_SESSION['messageShown_add_user'] = 'User added to group successfully!';
             }
-            //
-            // $response['message'] = 'User added to group successfully!';
         } else {
             $response['success'] = false;
             $response['message'] = 'User not found!';

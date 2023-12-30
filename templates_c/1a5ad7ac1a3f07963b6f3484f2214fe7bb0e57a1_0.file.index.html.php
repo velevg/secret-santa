@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-12-29 10:50:36
+/* Smarty version 4.3.4, created on 2023-12-30 09:13:06
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\index.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_658e966c608c57_44945235',
+  'unifunc' => 'content_658fd112906de4_92088512',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1a5ad7ac1a3f07963b6f3484f2214fe7bb0e57a1' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\index.html',
-      1 => 1703843435,
+      1 => 1703923728,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_658e966c608c57_44945235 (Smarty_Internal_Template $_smarty_tpl) {
+function content_658fd112906de4_92088512 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -67,7 +67,6 @@ echo $_SESSION['message'];
 }?>";
             sessionStorage.setItem('messageShown', true);
         }
-
         if (!sessionStorage.getItem('messageShown_add_group') && "<?php if ((isset($_SESSION['message_add_group']))) {
 echo $_SESSION['message_add_group'];
 }?>") {
@@ -76,14 +75,13 @@ echo $_SESSION['message_add_group'];
 }?>";
             sessionStorage.setItem('messageShown_add_group', true);
         }
-
         if (!sessionStorage.getItem('messageShown_add_user') && "<?php if ((isset($_SESSION['messageShown_add_user']))) {
 echo $_SESSION['messageShown_add_user'];
 }?>") {
             window.messageShown_add_user = "<?php if ((isset($_SESSION['messageShown_add_user']))) {
 echo $_SESSION['messageShown_add_user'];
 }?>";
-            sessionStorage.setItem('messageShown_add_user', true); // ako dobavim 2ri 4ovek oba4e iskame pak da go vidim, a taka ne go vijdame :s
+            sessionStorage.setItem('messageShown_add_user', true); // ako dobavim 2ri 4ovek oba4e iskame pak da go vidim, a taka ne go vijdame :s fix dat shit
         }
     <?php echo '</script'; ?>
 >
@@ -254,7 +252,10 @@ $_smarty_tpl->tpl_vars['user']->do_else = true;
 if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['user']->value) {
 $_smarty_tpl->tpl_vars['user']->do_else = false;
 ?>
-                                        <div class="row">
+                                        <div id="user_<?php echo $_smarty_tpl->tpl_vars['user']->value['id'];?>
+"
+                                            class="row mt-1 <?php if ($_smarty_tpl->tpl_vars['user']->value['owner_id'] === $_smarty_tpl->tpl_vars['user']->value['id']) {?>bg-success rounded-1<?php }?> <?php if ($_smarty_tpl->tpl_vars['user']->value['approved'] === 0) {?>bg-warning<?php }?>"
+                                            title="<?php if ($_smarty_tpl->tpl_vars['user']->value['approved'] === 0) {?>Pending approval <?php } elseif ($_smarty_tpl->tpl_vars['user']->value['owner_id'] === $_smarty_tpl->tpl_vars['user']->value['id']) {?> Owner of group <?php }?>">
                                             <div class="col-3">Name: <?php echo $_smarty_tpl->tpl_vars['user']->value['username'];?>
 </div>
                                             <div class="col-7">Email: <?php echo $_smarty_tpl->tpl_vars['user']->value['email'];?>

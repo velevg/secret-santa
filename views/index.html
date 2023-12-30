@@ -27,15 +27,13 @@
             window.sessionMessage = "{if $smarty.session.message}{$smarty.session.message}{/if}";
             sessionStorage.setItem('messageShown', true);
         }
-
         if (!sessionStorage.getItem('messageShown_add_group') && "{if isset($smarty.session.message_add_group)}{$smarty.session.message_add_group}{/if}") {
             window.sessionMessage_add_group = "{if isset($smarty.session.message_add_group)}{$smarty.session.message_add_group}{/if}";
             sessionStorage.setItem('messageShown_add_group', true);
         }
-
         if (!sessionStorage.getItem('messageShown_add_user') && "{if isset($smarty.session.messageShown_add_user)}{$smarty.session.messageShown_add_user}{/if}") {
             window.messageShown_add_user = "{if isset($smarty.session.messageShown_add_user)}{$smarty.session.messageShown_add_user}{/if}";
-            sessionStorage.setItem('messageShown_add_user', true); // ako dobavim 2ri 4ovek oba4e iskame pak da go vidim, a taka ne go vijdame :s
+            sessionStorage.setItem('messageShown_add_user', true); // ako dobavim 2ri 4ovek oba4e iskame pak da go vidim, a taka ne go vijdame :s fix dat shit
         }
     </script>
 </head>
@@ -177,7 +175,9 @@
                                     data-bs-parent="#accordionGroups">
                                     <div class="accordion-body">
                                         {foreach $group as $user}
-                                        <div class="row">
+                                        <div id="user_{$user.id}"
+                                            class="row mt-1 {if $user.owner_id === $user.id}bg-success rounded-1{/if} {if $user.approved === 0 }bg-warning{/if}"
+                                            title="{if $user.approved ===0}Pending approval {elseif $user.owner_id === $user.id} Owner of group {/if}">
                                             <div class="col-3">Name: {$user.username}</div>
                                             <div class="col-7">Email: {$user.email}</div>
                                             <div class="col-2">

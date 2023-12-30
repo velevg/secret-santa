@@ -53,7 +53,8 @@ $router->map('GET|POST', '/', function () use ($smarty) {
                     groups.group_name,
                     groups.owner AS owner_id,
                     user_groups.id AS user_group_id,
-                    user_groups.user_id AS user_group_user_id
+                    user_groups.user_id AS user_group_user_id,
+                    user_groups.approved
                 FROM
                     users
                 LEFT JOIN
