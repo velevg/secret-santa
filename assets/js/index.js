@@ -334,14 +334,14 @@ $(document).ready(function () {
 
     $("#searchUser").on('input', function () {
         let success = true;
-        const searchRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[~`%^&*()+}{[\]|"':;?/>]).{7,}$/; // (?=.*[a-z]): At least one lowercase letter. (?=.*[A-Z]): At least one uppercase letter. (?=.*\d): At least one digit. (?!.*[~%^&*()+}{[]|"':;?/>])`: Negative lookahead assertion to exclude the specified symbols. .{8,}: Minimum length of 8 characters.
+        // const searchRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[~`%^&*()+}{[\]|"':;?/>]).{7,}$/; // (?=.*[a-z]): At least one lowercase letter. (?=.*[A-Z]): At least one uppercase letter. (?=.*\d): At least one digit. (?!.*[~%^&*()+}{[]|"':;?/>])`: Negative lookahead assertion to exclude the specified symbols. .{8,}: Minimum length of 8 characters.
         let searchValue = $(this).val();
 
-        if (!searchRegex.test(searchValue)) {
-            success = false;
-            $("#searchResultsUl").empty();
-            return;
-        }
+        // if (!searchRegex.test(searchValue)) {
+        // success = false;
+        // $("#searchResultsUl").empty();
+        // return;
+        // }
 
         if (searchValue.length == 0 || searchValue.length == 1) {
             $("#searchResultsUl").empty();
@@ -392,7 +392,6 @@ $(document).ready(function () {
                 csrf_token: csrfToken
             },
             success: function (response) {
-                console.log(response);
                 if (response.success) {
                     response.message = sessionStorage.setItem('messageShown_add_group', true);
                     window.location.reload();

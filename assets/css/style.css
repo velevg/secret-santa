@@ -1,7 +1,5 @@
 * {
     user-select: none;
-    /* overflow-x: hidden; */
-    /* overflow-y: hidden; */
 }
 
 body {
@@ -15,6 +13,8 @@ body {
             rgba(190, 228, 255, 1) 0%,
             rgba(9, 141, 231, 1) 50%,
             rgba(0, 73, 124, 1) 100%);
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .snow {

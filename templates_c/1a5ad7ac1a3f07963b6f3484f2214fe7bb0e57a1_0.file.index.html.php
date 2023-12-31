@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-12-30 09:13:06
+/* Smarty version 4.3.4, created on 2023-12-31 09:45:40
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\index.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_658fd112906de4_92088512',
+  'unifunc' => 'content_65912a349000c2_82930349',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1a5ad7ac1a3f07963b6f3484f2214fe7bb0e57a1' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\index.html',
-      1 => 1703923728,
+      1 => 1704012338,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_658fd112906de4_92088512 (Smarty_Internal_Template $_smarty_tpl) {
+function content_65912a349000c2_82930349 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +31,7 @@ function content_658fd112906de4_92088512 (Smarty_Internal_Template $_smarty_tpl)
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
     <?php echo '<script'; ?>
  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -238,6 +239,7 @@ $_smarty_tpl->tpl_vars['group']->do_else = false;
 " aria-expanded="false"
                                         aria-controls="collapse_<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
 ">
+                                        <i class="bi bi-collection"></i> &nbsp;
                                         <?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_name'];?>
 
                                     </button>
@@ -256,8 +258,15 @@ $_smarty_tpl->tpl_vars['user']->do_else = false;
 "
                                             class="row mt-1 <?php if ($_smarty_tpl->tpl_vars['user']->value['owner_id'] === $_smarty_tpl->tpl_vars['user']->value['id']) {?>bg-success rounded-1<?php }?> <?php if ($_smarty_tpl->tpl_vars['user']->value['approved'] === 0) {?>bg-warning<?php }?>"
                                             title="<?php if ($_smarty_tpl->tpl_vars['user']->value['approved'] === 0) {?>Pending approval <?php } elseif ($_smarty_tpl->tpl_vars['user']->value['owner_id'] === $_smarty_tpl->tpl_vars['user']->value['id']) {?> Owner of group <?php }?>">
-                                            <div class="col-3">Name: <?php echo $_smarty_tpl->tpl_vars['user']->value['username'];?>
-</div>
+                                            <div class="col-3">
+                                                <?php if ($_smarty_tpl->tpl_vars['user']->value['approved'] === 0) {?>
+                                                <i class="bi bi-exclamation-circle"></i>
+                                                <?php } elseif ($_smarty_tpl->tpl_vars['user']->value['approved'] === 1) {?>
+                                                <i class="bi bi-check"></i>
+                                                <?php }?>
+                                                Name: <?php echo $_smarty_tpl->tpl_vars['user']->value['username'];?>
+
+                                            </div>
                                             <div class="col-7">Email: <?php echo $_smarty_tpl->tpl_vars['user']->value['email'];?>
 </div>
                                             <div class="col-2">

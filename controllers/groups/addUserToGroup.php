@@ -25,10 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_user_to_group']) 
         if ($query_result) {
             $selected_user_id = $query_result['id'];
 
-            $query = $db->prepare("SELECT user_id, group_id FROM user_groups WHERE 1 AND user_id = :user_id AND group_id = :group_id");
+            $query = $db->prepare("SELECT user_id, group_id FROM user_groups WHERE 1 AND user_id = :user_id AND group_id = :group_id AND user_groups.deleted IS NULL");
             $query->bindValue(':user_id', $selected_user_id, PDO::PARAM_INT);
             $query->bindValue(':group_id', $selectedGroup, PDO::PARAM_INT);
-            $query_result = $query->fetch(PDO::FETCH_ASSOC);
+            $query->execute();
+            $query_result = $query->fetchAll(PDO::FETCH_ASSOC);
 
             if ($query_result) {
                 $success = false;
@@ -42,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_user_to_group']) 
                 $query->execute();
 
                 $response['success'] = true;
+                $response['message'] = 'User added to group successfully!';
                 $_SESSION['messageShown_add_user'] = 'User added to group successfully!';
             }
         } else {
