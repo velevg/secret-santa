@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_user_to_group']) 
 
             if ($query_result) {
                 $success = false;
+                $response['success'] = false;
                 $response['message'] = "User is already in the group!";
             }
 
