@@ -39,4 +39,23 @@ CREATE TABLE user_groups (
 --     FOREIGN KEY (user_id) REFERENCES users(id),
 --     FOREIGN KEY (selected_user) REFERENCES users(id)
 -- );
-
+-- Truncate the tables
+-- Disable foreign key checks
+SET foreign_key_checks = 0;
+-- Truncate tables
+TRUNCATE TABLE groups;
+TRUNCATE TABLE users;
+-- Enable foreign key checks
+SET foreign_key_checks = 1;
+-- Get all foreign keys
+SELECT CONSTRAINT_NAME,
+    TABLE_NAME,
+    COLUMN_NAME,
+    REFERENCED_TABLE_NAME,
+    REFERENCED_COLUMN_NAME
+FROM information_schema.KEY_COLUMN_USAGE
+WHERE REFERENCED_TABLE_SCHEMA = 'secret_santa'
+    AND REFERENCED_TABLE_NAME = 'users';
+-- Drop foreign keys
+ALTER TABLE user_groups DROP FOREIGN KEY user_groups_ibfk_2;
+ALTER TABLE user_groups DROP FOREIGN KEY user_groups_ibfk_1;

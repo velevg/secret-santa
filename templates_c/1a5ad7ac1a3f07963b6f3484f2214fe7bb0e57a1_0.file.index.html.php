@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2024-01-01 10:28:26
+/* Smarty version 4.3.4, created on 2024-01-01 20:49:43
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\index.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_659285ba66e5d1_29265009',
+  'unifunc' => 'content_65931757620fb1_04793975',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1a5ad7ac1a3f07963b6f3484f2214fe7bb0e57a1' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\index.html',
-      1 => 1704101305,
+      1 => 1704138582,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_659285ba66e5d1_29265009 (Smarty_Internal_Template $_smarty_tpl) {
+function content_65931757620fb1_04793975 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +28,7 @@ function content_659285ba66e5d1_29265009 (Smarty_Internal_Template $_smarty_tpl)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secret Santa</title>
+    <link rel="icon" href="assets/images/48x48.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -98,43 +99,100 @@ echo $_SESSION['messageShown_add_user'];
         <div class="d-flex justify-content-center">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
-                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Home</button>
+                    <button class="nav-link rounded-0 active" id="home-tab" data-bs-toggle="tab"
+                        data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                        aria-selected="true">Home</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
-                        type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>
+                    <button class="nav-link rounded-0" id="profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
+                        aria-selected="false">Profile</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="groups-tab" data-bs-toggle="tab" data-bs-target="#groups-tab-pane"
-                        type="button" role="tab" aria-controls="groups-tab-pane" aria-selected="false">Groups</button>
+                    <button class="nav-link rounded-0" id="groups-tab" data-bs-toggle="tab"
+                        data-bs-target="#groups-tab-pane" type="button" role="tab" aria-controls="groups-tab-pane"
+                        aria-selected="false">
+                        Groups
+                        <?php if ((isset($_smarty_tpl->tpl_vars['group_users']->value)) && count($_smarty_tpl->tpl_vars['group_users']->value) > 0) {?>
+                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['group_users']->value, 'group');
+$_smarty_tpl->tpl_vars['group']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['group']->value) {
+$_smarty_tpl->tpl_vars['group']->do_else = false;
+?>
+                        <?php $_smarty_tpl->_assignInScope('currentUserCount', 0);?>
+                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['group']->value, 'user');
+$_smarty_tpl->tpl_vars['user']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['user']->value) {
+$_smarty_tpl->tpl_vars['user']->do_else = false;
+?>
+                        <?php if ($_smarty_tpl->tpl_vars['user']->value['approved'] === 0 && $_smarty_tpl->tpl_vars['user']->value['id'] == $_smarty_tpl->tpl_vars['user_id']->value) {?>
+                        <?php $_smarty_tpl->_assignInScope('currentUserCount', $_smarty_tpl->tpl_vars['currentUserCount']->value+1);?>
+                        <?php }?>
+                        <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                        <?php if ($_smarty_tpl->tpl_vars['currentUserCount']->value > 0) {?>
+                        <div title="<?php echo $_smarty_tpl->tpl_vars['currentUserCount']->value;?>
+ new requests"
+                            class="bg-warning rounded-circle position-absolute d-flex align-items-center justify-content-center">
+                            <span class="badge bg-warning text-dark rounded-circle"><?php echo $_smarty_tpl->tpl_vars['currentUserCount']->value;?>
+</span>
+                        </div>
+                        <?php }?>
+                        <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                        <?php }?>
+                    </button>
                 </li>
             </ul>
+            <div class="position-absolute top-0 end-0">
+                <button id="getSession" class="btn btn-sm"><i class="bi bi-clipboard-data"></i></button>
+                <a class="" href="auth" id="logout"><i class="bi bi-door-open"></i></a>
+                <?php echo '<script'; ?>
+>
+                    $(document).ready(function () {
+                        $("#getSession").click(function () {
+                            $.ajax({
+                                type: "GET",
+                                url: "controllers/getSession.php",
+                                success: function (response) {
+                                    console.log(response)
+                                }
+                            })
+                        })
+                    })
+                <?php echo '</script'; ?>
+>
+            </div>
         </div>
-
+        <i class="bi bi-clipboard-data"></i>
         <div class="tab-content" id="myTabContent">
             <!--TAB GIFT-->
             <div class="tab-pane fade d-flex justify-content-center show active" id="home-tab-pane" role="tabpanel"
                 aria-labelledby="home-tab" tabindex="0">
                 <div class="mt-3">
-                    Home
-                    <a href="auth" id="logout">Logout</a>
-                    <button id="getSession" class="btn btn-sm btn-info">getSession</button>
-                    <?php echo '<script'; ?>
->
-                        $(document).ready(function () {
-                            $("#getSession").click(function () {
-                                $.ajax({
-                                    type: "GET",
-                                    url: "controllers/getSession.php",
-                                    success: function (response) {
-                                        console.log(response)
-                                    }
-                                })
-                            })
-                        })
-                    <?php echo '</script'; ?>
->
+                    <div class="">
+                        <label for="groups" class="text-center text-white w-100">Choose group</label>
+                        <select name="" id="groups" class="form-select">
+                            <option value="">-- select --</option>
+                            <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['group_users']->value, 'group');
+$_smarty_tpl->tpl_vars['group']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['group']->value) {
+$_smarty_tpl->tpl_vars['group']->do_else = false;
+?>
+                            <option value="<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
+" class="form-select"><?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_name'];?>
+
+                            </option>
+                            <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                        </select>
+                    </div>
                 </div>
             </div>
             <!--TAB PROFILE-->
@@ -143,37 +201,37 @@ echo $_SESSION['messageShown_add_user'];
                 <div class='w-75 mt-3'>
                     <form method="POST" id="editProfileForm">
                         <div class='d-flex justify-content-center'>
-                            <h5 class='card-title fs-3'>Edit Profile</h5>
+                            <h5 class='card-title fs-3 text-white'>Edit Profile</h5>
                         </div>
                         <div class='mt-5 mb-5'>
                             <div class='form-floating mb-1'>
-                                <input type='text' class='form-control  shadow border border-0'
-                                    id='profileEmail' placeholder='' value='<?php echo $_smarty_tpl->tpl_vars['email']->value;?>
-' name="email"
-                                    pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' readonly />
+                                <input type='text' class='form-control shadow border border-0' id='profileEmail'
+                                    placeholder='' value='<?php echo $_smarty_tpl->tpl_vars['email']->value;?>
+' name="email" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$'
+                                    readonly />
                                 <label for='profileEmail'>Email</label>
                             </div>
                             <div class='form-floating mb-1'>
-                                <input type='text' class='form-control  shadow border border-0' id='name'
-                                    placeholder='' value='<?php echo $_smarty_tpl->tpl_vars['username']->value;?>
+                                <input type='text' class='form-control shadow border border-0' id='name' placeholder=''
+                                    value='<?php echo $_smarty_tpl->tpl_vars['username']->value;?>
 ' name="name" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$'
                                     autocomplete="off" />
                                 <label for='name'>Name</label>
                             </div>
                             <div class='form-floating mb-1'>
-                                <input class='form-control  shadow border border-0' id='old_password'
-                                    placeholder='' value='' name="old_password" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$'
+                                <input class='form-control shadow border border-0' id='old_password' placeholder=''
+                                    value='' name="old_password" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$'
                                     autocomplete="off" />
                                 <label for='old_password'>old password</label>
                             </div>
                             <div class='form-floating mb-1'>
-                                <input class='form-control  shadow border border-0' id='new_password'
-                                    placeholder='' value='' name="new_password" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' />
+                                <input class='form-control shadow border border-0' id='new_password' placeholder=''
+                                    value='' name="new_password" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' />
                                 <label for='new_password'>new password</label>
                             </div>
                             <div class='form-floating mb-1'>
-                                <input class='form-control  shadow border border-0'
-                                    id='confirm_new_password' placeholder='' value='' name="confirm_new_password"
+                                <input class='form-control shadow border border-0' id='confirm_new_password'
+                                    placeholder='' value='' name="confirm_new_password"
                                     pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' />
                                 <label for='confirm_new_password'>confirm new password</label>
                             </div>
@@ -200,6 +258,7 @@ echo $_SESSION['messageShown_add_user'];
                     <div class="row mx-auto w-lg-50">
                         <div class="col-4">
                             <select name="" id="groups" class="form-select">
+                                <option value="">-- select --</option>
                                 <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['group_users']->value, 'group');
 $_smarty_tpl->tpl_vars['group']->do_else = true;
@@ -269,19 +328,31 @@ $_smarty_tpl->tpl_vars['user']->do_else = false;
 ?>
                                                 <tr
                                                     title="<?php if ($_smarty_tpl->tpl_vars['user']->value['approved'] === 0) {?>Pending approval <?php } elseif ($_smarty_tpl->tpl_vars['user']->value['owner_id'] === $_smarty_tpl->tpl_vars['user']->value['id']) {?> Owner of group <?php }?>">
-                                                    <td class="col"><?php echo $_smarty_tpl->tpl_vars['user']->value['username'];?>
-</td>
+                                                    <td class="col">
+                                                        <?php if ($_smarty_tpl->tpl_vars['user']->value['approved'] === 0) {?> <i
+                                                            class="bi bi-exclamation-triangle-fill text-danger"></i>
+                                                        <?php }?>
+                                                        <?php echo $_smarty_tpl->tpl_vars['user']->value['username'];?>
+
+                                                    </td>
                                                     <td class="col"><?php echo $_smarty_tpl->tpl_vars['user']->value['email'];?>
 </td>
                                                     <td class="col text-end">
                                                         <?php if ($_smarty_tpl->tpl_vars['user']->value['owner_id'] == $_smarty_tpl->tpl_vars['user_id']->value || $_smarty_tpl->tpl_vars['user_id']->value == $_smarty_tpl->tpl_vars['user']->value['id']) {?>
-                                                        <input type="button" class="btn btn-sm btn-danger deleteUser"
-                                                            value="X" data-user-id="<?php echo $_smarty_tpl->tpl_vars['user']->value['id'];?>
-"
-                                                            data-owner-id="<?php echo $_smarty_tpl->tpl_vars['user']->value['owner_id'];?>
+                                                        <?php if ($_smarty_tpl->tpl_vars['user_id']->value == $_smarty_tpl->tpl_vars['user']->value['id'] && $_smarty_tpl->tpl_vars['user']->value['approved'] === 0) {?>
+                                                        <button class="btn btn-sm btn-success approveGroupRequest"
+                                                            value="<?php echo $_smarty_tpl->tpl_vars['user']->value['id'];?>
+"><i class="bi bi-check"></i>
+                                                        </button>
+                                                        <?php }?>
+                                                        <button class="btn btn-sm btn-danger deleteUser"
+                                                            data-user-id="<?php echo $_smarty_tpl->tpl_vars['user']->value['id'];?>
+" data-owner-id="<?php echo $_smarty_tpl->tpl_vars['user']->value['owner_id'];?>
 "
                                                             data-group-id="<?php echo $_smarty_tpl->tpl_vars['group']->value[0]['group_id'];?>
-" />
+">
+                                                            <i class="bi bi-x"></i>
+                                                        </button>
                                                         <?php }?>
                                                     </td>
                                                 </tr>

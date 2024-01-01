@@ -98,10 +98,38 @@ $(document).ready(function () {
     }
 
     // === VALIDATION
+    var onlyLettersRegex = /^[a-zA-Z]+$/;
     // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[~`%^&*()+}{[\]|"':;?/>]).{7,}$/; // (?=.*[a-z]): At least one lowercase letter. (?=.*[A-Z]): At least one uppercase letter. (?=.*\d): At least one digit. (?!.*[~%^&*()+}{[]|"':;?/>])`: Negative lookahead assertion to exclude the specified symbols. .{8,}: Minimum length of 8 characters.
     let csrfToken = $("#editProfileCsrf").val();
 
+    // === PROFILE
+    if ($("#name").val().length === 0) {
+        let name;
+        iziToast.info({
+            timeout: 100000,
+            overlay: true,
+            displayMode: 'once',
+            id: 'inputs',
+            zindex: 999,
+            title: '',
+            message: 'Please enter your name:',
+            position: 'center',
+            drag: false,
+            inputs: [
+                ['<input type="text">', 'keyup', function (instance, toast, input, e) {
+                    $("#name").val(input.value);
+                }, true],
+                ['<input type="button" id="addName" value="Create">', 'click', function (instance, toast, input, e) {
+                    // updateProfile(name);
+                    $("#editProfileBtn").click();
+                }]
+            ]
+        });
+    }
+    $("#name").on('input', function () {
+        this.value = this.value.replace(/[^a-zA-Z]/g, '');
+    })
     // Edit Profile
     let editProfileBtnClicks = 0;
     $("#editProfileBtn").on('click', function () {
@@ -113,7 +141,19 @@ $(document).ready(function () {
         let confirmNewPassword = $("#confirm_new_password").val();
         // let csrfToken = $('meta[name="csrf-token"]').attr('content');// interesno
 
+
         if (success && editProfileBtnClicks <= 3 && csrfToken.length === 64) {
+            if (!onlyLettersRegex.test(name)) {
+                showNotification('error', '', 'Name must only contain letters!', 'topCenter', 5000);
+                success = false;
+                $("#editProfileBtn").attr("disabled", true);
+                $("#editProfileBtn").addClass("btn-danger");
+                $("#editProfileBtn").effect("shake", { times: 5 }, 1000);
+                setInterval(function () {
+                    $("#editProfileBtn").removeClass("btn-danger");
+                    $("#editProfileBtn").removeAttr("disabled");
+                }, 1200)
+            }
             if (oldPassword != '' && newPassword != '' && confirmNewPassword != '') {
                 if (!passwordRegex.test(newPassword)) {
                     showNotification('error', '', 'New password must be at least 7 characters long and contain at least one uppercase letter, one lowercase letter, and one number!', 'topCenter', 5000);
@@ -124,7 +164,7 @@ $(document).ready(function () {
                     setInterval(function () {
                         $("#editProfileBtn").removeClass("btn-danger");
                         $("#editProfileBtn").removeAttr("disabled");
-                    }, 1100)
+                    }, 1200)
                     if (newPassword != confirmNewPassword) {
                         showNotification('error', '', 'New password and confirm new password do not match!', 'topCenter', 5000);
                         success = false;
@@ -134,7 +174,7 @@ $(document).ready(function () {
                         setInterval(function () {
                             $("#editProfileBtn").removeClass("btn-danger");
                             $("#editProfileBtn").removeAttr("disabled");
-                        }, 1100)
+                        }, 1200)
                     }
                 }
             }
@@ -194,32 +234,11 @@ $(document).ready(function () {
             drag: false,
             inputs: [
                 ['<input type="text">', 'keyup', function (instance, toast, input, e) {
-                    newGroupName = input.value
+                    input.value = input.value.replace(/[^a-zA-Z0-9-_]/g, ''); // letters, numbers and - _
+                    newGroupName = input.value;
                 }, true],
                 ['<input type="button" id="createGroup" value="Create">', 'click', function (instance, toast, input, e) {
                     createGroup(newGroupName);
-                    // let append = `
-                    //     <div class="accordion-item">
-                    //         <h2 class="accordion-header">
-                    //             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    //                 data-bs-target="#collapse_1" aria-expanded="false" aria-controls="collapse_1">
-                    //                 ${newGroupName}
-                    //             </button>
-                    //         </h2>
-                    //         <div id="collapse_1" class="accordion-collapse collapse"
-                    //             data-bs-parent="#accordionGroups">
-                    //             <div class="accordion-body">
-                    //                 <div class="row">
-                    //                     <div class="col-4">Name: </div>
-                    //                     <div class="col-8">Email: </div>
-                    //                     <div class="col-3"><input type="button" class="btn btn-sm btn-danger"/></div>
-                    //                 </div>
-                    //             </div>
-                    //         </div>
-                    //     </div>
-                    // `;
-
-                    // $("#accordionGroups").append(append);
                 }]
             ]
         });
@@ -309,7 +328,7 @@ $(document).ready(function () {
     function deleteUserFromGroup(userId, ownerId, groupId) {
         $.ajax({
             type: 'POST',
-            url: 'controllers/groups/deleteUserFromGroup.php',
+            url: 'controllers/groups/deleteUserFromGroupAjax.php',
             data: {
                 delete_user_from_group: true,
                 userId: userId,
@@ -351,7 +370,7 @@ $(document).ready(function () {
         if (searchValue.length > 1 && success) {
             $.ajax({
                 type: 'POST',
-                url: 'controllers/groups/searchUser.php',
+                url: 'controllers/groups/searchUserAjax.php',
                 data: {
                     search_user: true,
                     searchValue: searchValue,
@@ -384,7 +403,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: 'controllers/groups/addUserToGroup.php',
+            url: 'controllers/groups/addUserToGroupAjax.php',
             data: {
                 add_user_to_group: true,
                 selectedGroup: selectedGroup,
@@ -407,4 +426,6 @@ $(document).ready(function () {
     })
 
     console.log(sessionStorage);
+
+    // select group -> generate with ajax the gift -> append the gift
 });

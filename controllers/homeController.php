@@ -23,10 +23,11 @@ function homeController($smarty, $db)
                 user_groups ON groups.id = user_groups.group_id
             WHERE 1
             AND user_groups.user_id = :user_id
-            AND user_groups.approved = 1
+           -- AND user_groups.approved = 1
             AND groups.deleted IS NULL
             AND user_groups.deleted IS NULL;
         ");
+        // mnogo si baven AND user_groups.approved = 1
         $query_groups->bindParam(":user_id", $_SESSION['user_id'], PDO::PARAM_INT);
         $query_groups->execute();
         $groups = $query_groups->fetchAll(PDO::FETCH_ASSOC);

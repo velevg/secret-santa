@@ -11,6 +11,7 @@ $response = [
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['name']) && isset($_POST['edit_profile']) && isset($_POST['csrf_token']) && isset($_POST['old_password']) && isset($_POST['new_password']) && isset($_POST['confirm_new_password'])) {
     $success = true;
+    $onlyLettersRegex = '/^[a-zA-Z]+$/';
     $passwordRegex = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[~`%^&*()+}{[\]|"\'\:;?\/>]).{7,}$/';
 
     $oldPassword = $_POST['old_password'];
@@ -20,13 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['name']) && isset($_PO
     if (empty($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
         $success = false;
         $response['success'] = false;
-        // $response['message'] = 'Invalid CSRF token!';
         session_destroy();
         $response["redirect"] = "/secret-santa/auth";
     }
 
     if ($success && !empty($_POST['name'])) {
-        if (mb_strlen($_POST['name'] >= 2)) {
+        if (mb_strlen($_POST['name'] >= 2) && preg_match($onlyLettersRegex, $_POST['name'])) {
             $query = $db->prepare("UPDATE users SET username = :name WHERE id = :id");
             $query->bindParam(":name", $_POST['name'], PDO::PARAM_STR);
             $query->bindParam(":id", $_SESSION['user_id'], PDO::PARAM_INT);
