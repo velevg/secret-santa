@@ -10,10 +10,12 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
     <script src="assets/js/index.js"></script>
     <link rel="manifest" href="manifest.json">
@@ -92,30 +94,30 @@
                         </div>
                         <div class='mt-5 mb-5'>
                             <div class='form-floating mb-1'>
-                                <input type='text' class='form-control bg-transparent shadow border border-0'
+                                <input type='text' class='form-control  shadow border border-0'
                                     id='profileEmail' placeholder='' value='{$email}' name="email"
                                     pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' readonly />
                                 <label for='profileEmail'>Email</label>
                             </div>
                             <div class='form-floating mb-1'>
-                                <input type='text' class='form-control bg-transparent shadow border border-0' id='name'
+                                <input type='text' class='form-control  shadow border border-0' id='name'
                                     placeholder='' value='{$username}' name="name" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$'
                                     autocomplete="off" />
                                 <label for='name'>Name</label>
                             </div>
                             <div class='form-floating mb-1'>
-                                <input class='form-control bg-transparent shadow border border-0' id='old_password'
+                                <input class='form-control  shadow border border-0' id='old_password'
                                     placeholder='' value='' name="old_password" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$'
                                     autocomplete="off" />
                                 <label for='old_password'>old password</label>
                             </div>
                             <div class='form-floating mb-1'>
-                                <input class='form-control bg-transparent shadow border border-0' id='new_password'
+                                <input class='form-control  shadow border border-0' id='new_password'
                                     placeholder='' value='' name="new_password" pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' />
                                 <label for='new_password'>new password</label>
                             </div>
                             <div class='form-floating mb-1'>
-                                <input class='form-control bg-transparent shadow border border-0'
+                                <input class='form-control  shadow border border-0'
                                     id='confirm_new_password' placeholder='' value='' name="confirm_new_password"
                                     pattern='[^\s@]+@[^\s@]+\.[^\s@]+$' />
                                 <label for='confirm_new_password'>confirm new password</label>
@@ -176,28 +178,32 @@
                                 <div id="collapse_{$group.0.group_id}" class="accordion-collapse collapse"
                                     data-bs-parent="#accordionGroups">
                                     <div class="accordion-body">
-                                        {foreach $group as $user}
-                                        <div id="user_{$user.id}"
-                                            class="row mt-1 {if $user.owner_id === $user.id}bg-success rounded-1{/if} {if $user.approved === 0 }bg-warning{/if}"
-                                            title="{if $user.approved === 0}Pending approval {elseif $user.owner_id === $user.id} Owner of group {/if}">
-                                            <div class="col-3">
-                                                {if $user.approved === 0}
-                                                <i class="bi bi-exclamation-circle"></i>
-                                                {elseif $user.approved === 1 }
-                                                <i class="bi bi-check"></i>
-                                                {/if}
-                                                Name: {$user.username}
-                                            </div>
-                                            <div class="col-7">Email: {$user.email}</div>
-                                            <div class="col-2">
-                                                {if $user.owner_id == $user_id || $user_id == $user.id}
-                                                <input type="button" class="btn btn-sm btn-danger deleteUser" value="X"
-                                                    data-user-id="{$user.id}" data-owner-id="{$user.owner_id}"
-                                                    data-group-id="{$group.0.group_id}" />
-                                                {/if}
-                                            </div>
-                                        </div>
-                                        {/foreach}
+                                        <table class="groupTable table table-hover w-100 customDataTable">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Email</td>
+                                                    <td>Action</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {foreach $group as $user}
+                                                <tr
+                                                    title="{if $user.approved === 0}Pending approval {elseif $user.owner_id === $user.id} Owner of group {/if}">
+                                                    <td class="col">{$user.username}</td>
+                                                    <td class="col">{$user.email}</td>
+                                                    <td class="col text-end">
+                                                        {if $user.owner_id == $user_id || $user_id == $user.id}
+                                                        <input type="button" class="btn btn-sm btn-danger deleteUser"
+                                                            value="X" data-user-id="{$user.id}"
+                                                            data-owner-id="{$user.owner_id}"
+                                                            data-group-id="{$group.0.group_id}" />
+                                                        {/if}
+                                                    </td>
+                                                </tr>
+                                                {/foreach}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -213,6 +219,13 @@
 
     </div>
 
+    <script>
+        $(document).ready(function () {
+            $(".groupTable").each(function () {
+                let table = new DataTable(this);
+            })
+        });
+    </script>
 </body>
 
 </html>

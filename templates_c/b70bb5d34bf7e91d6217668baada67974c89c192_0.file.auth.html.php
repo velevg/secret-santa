@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.4, created on 2023-12-31 09:24:39
+/* Smarty version 4.3.4, created on 2024-01-01 10:28:52
   from 'F:\WebDev\Xampp\htdocs\secret-santa\views\auth.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.4',
-  'unifunc' => 'content_65912547c6d7a1_97799475',
+  'unifunc' => 'content_659285d4293b28_54539788',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b70bb5d34bf7e91d6217668baada67974c89c192' => 
     array (
       0 => 'F:\\WebDev\\Xampp\\htdocs\\secret-santa\\views\\auth.html',
-      1 => 1704010897,
+      1 => 1704101331,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_65912547c6d7a1_97799475 (Smarty_Internal_Template $_smarty_tpl) {
+function content_659285d4293b28_54539788 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
