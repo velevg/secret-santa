@@ -3,6 +3,8 @@
 function homeController($smarty, $db)
 {
     if (isUserLoggedIn()) {
+        // if (isset($_SESSION['message_add_user'])) unset($_SESSION['message_add_user']);
+
         if (!$_SESSION['csrf_token'] || empty($_SESSION['csrf_token'])) header('Location: /secret-santa/auth');
         global $db;
         $email = $_SESSION['email'];

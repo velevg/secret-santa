@@ -1,5 +1,5 @@
 * {
-    user-select: none;
+    /* user-select: none; */
 }
 
 body {
@@ -44,14 +44,22 @@ body {
     }
 }
 
+.nav-link {
+    color: white !important;
+}
+
+.nav-link.active {
+    color: black !important;
+}
+
 /* === GIFT === */
-.gift_container {
+/* .gift_container {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 20rem;
-}
+} */
 
 .gift {
     width: 200px;

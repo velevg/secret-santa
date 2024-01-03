@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login']) && isset($_P
 
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
-            $_SESSION['message'] = "Login successful!";
+            $_SESSION['message_login'] = "Login successful!";
             header("Location: /secret-santa");
             exit;
         }

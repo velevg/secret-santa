@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_user_to_group']) 
 
                 $response['success'] = true;
                 $response['message'] = 'User added to group successfully!';
-                $_SESSION['messageShown_add_user'] = 'User added to group successfully!';
+                // $_SESSION['message_add_user'] = 'User added to group successfully!'; // da zapishem i string ili vremeto i da gi sravnim kogato ne suvpadat da prezapishe i pokaje msg ako suvpadata znachi e same shit
             }
         } else {
             $response['success'] = false;

@@ -1,37 +1,16 @@
+{if isset($group_users) && count($group_users) > 0}
 {foreach $group_users as $group}
-<div class="accordion-item">
-    <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapse_{$group.0.group_id}" aria-expanded="false"
-            aria-controls="collapse_{$group.0.group_id}">
-            <i class="bi bi-collection"></i> &nbsp;
-            {$group.0.group_name}
-        </button>
-    </h2>
-    <div id="collapse_{$group.0.group_id}" class="accordion-collapse collapse" data-bs-parent="#accordionGroups">
-        <div class="accordion-body">
-            {foreach $group as $user}
-            <div id="user_{$user.id}"
-                class="row mt-1 {if $user.owner_id === $user.id}bg-success rounded-1{/if} {if $user.approved === 0 }bg-warning{/if}"
-                title="{if $user.approved === 0}Pending approval {elseif $user.owner_id === $user.id} Owner of group {/if}">
-                <div class="col-3">
-                    {if $user.approved === 0}
-                    <i class="bi bi-exclamation-circle"></i>
-                    {elseif $user.approved === 1 }
-                    <i class="bi bi-check"></i>
-                    {/if}
-                    Name: {$user.username}
-                </div>
-                <div class="col-7">Email: {$user.email}</div>
-                <div class="col-2">
-                    {if $user.owner_id == $user_id || $user_id == $user.id}
-                    <input type="button" class="btn btn-sm btn-danger deleteUser" value="X" data-user-id="{$user.id}"
-                        data-owner-id="{$user.owner_id}" data-group-id="{$group.0.group_id}" />
-                    {/if}
-                </div>
-            </div>
-            {/foreach}
-        </div>
-    </div>
-</div>
+{assign var=currentUserCount value=0}
+{foreach $group as $user}
+{if $user.approved === 0 && $user.id == $user_id}
+{assign var=currentUserCount value=$currentUserCount+1}
+{/if}
 {/foreach}
+{if $currentUserCount > 0}
+<div title="{$currentUserCount} new requests"
+    class="bg-warning rounded-circle position-absolute d-flex align-items-center justify-content-center">
+    <span class="badge bg-warning text-dark rounded-circle">{$currentUserCount}</span>
+</div>
+{/if}
+{/foreach}
+{/if}

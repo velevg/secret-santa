@@ -84,18 +84,18 @@ $(document).ready(function () {
     }
 
     // === SESSION MESSAGES
-    let message = window.sessionMessage;
-    if (message) {
-        showNotification('success', 'Success', message, 'topCenter', 5000);
+    let sessionMessageLogin = window.sessionMessageLogin;
+    if (sessionMessageLogin) {
+        showNotification('success', 'Success', sessionMessageLogin, 'topCenter', 5000);
     }
     let sessionMessage_add_group = window.sessionMessage_add_group;
     if (sessionMessage_add_group) {
         showNotification('success', 'Success', sessionMessage_add_group, 'topCenter', 5000);
     }
-    let messageShown_add_user = window.messageShown_add_user;
-    if (messageShown_add_user) {
-        showNotification('success', 'Success', messageShown_add_user, 'topCenter', 5000);
-    }
+    // let messageShown_add_user = window.messageShown_add_user;
+    // if (messageShown_add_user) {
+    //     showNotification('success', 'Success', messageShown_add_user, 'topCenter', 5000);
+    // }
 
     // === VALIDATION
     var onlyLettersRegex = /^[a-zA-Z]+$/;
@@ -398,34 +398,72 @@ $(document).ready(function () {
     })
 
     $("#addUserBtn").on('click', function () {
-        let selectedGroup = $("#groups").val();
+        let selectedGroup = $("#groupsAdd").val();
         let selectedUser = $("#searchUser").val();
 
-        $.ajax({
-            type: 'POST',
-            url: 'controllers/groups/addUserToGroupAjax.php',
-            data: {
-                add_user_to_group: true,
-                selectedGroup: selectedGroup,
-                selectedUser: selectedUser,
-                csrf_token: csrfToken
-            },
-            success: function (response) {
-                if (response.success) {
-                    response.message = sessionStorage.setItem('messageShown_add_group', true);
-                    window.location.reload();
-                } else {
-                    showNotification('error', '', response.message, 'topCenter', 5000);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error adding user:', error);
+        if (selectedGroup > 0) {
+            if (selectedUser.length > 0) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'controllers/groups/addUserToGroupAjax.php',
+                    data: {
+                        add_user_to_group: true,
+                        selectedGroup: selectedGroup,
+                        selectedUser: selectedUser,
+                        csrf_token: csrfToken
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            showNotification('success', '', response.message, 'topCenter', 5000);
+                            // response.message = sessionStorage.setItem('messageShown_add_group', true); // Tupak si
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            showNotification('error', '', response.message, 'topCenter', 5000);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error adding user:', error);
+                    }
+                })
+            } else {
+                showNotification('error', '', 'Please select a user', 'topCenter', 5000);
             }
-        })
-
+        } else {
+            showNotification('error', '', 'Please select a group and a user', 'topCenter', 5000);
+        }
     })
 
     console.log(sessionStorage);
+
+    $(".approveGroupRequest").each(function () {
+        $(this).on('click', function () {
+            let groupId = $(this).data('group-id');
+            let userId = $(this).data('user-id');
+            $.ajax({
+                type: 'POST',
+                url: 'controllers/groups/approveGroupRequestAjax.php',
+                data: {
+                    approve_group_request: true,
+                    groupId: groupId,
+                    userId: userId,
+                    csrf_token: csrfToken
+                },
+                success: function (response) {
+                    if (response.success) {
+                        showNotification('success', '', response.message, 'topCenter', 5000);
+                        // window.location.reload(); // tyka imash sushto problem
+                    } else {
+                        showNotification('error', '', response.message, 'topCenter', 5000);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error approving group request:', error);
+                }
+            })
+        })
+    });
 
     // select group -> generate with ajax the gift -> append the gift
 });
