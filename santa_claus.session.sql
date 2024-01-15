@@ -1,1 +1,0 @@
-SELECT user_id, group_id FROM user_groups WHERE 1 AND user_id = 25 AND group_id = 7 AND user_groups.deleted IS NULL

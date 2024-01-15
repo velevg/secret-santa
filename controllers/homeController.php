@@ -34,9 +34,9 @@ function homeController($smarty, $db)
         $query_groups->execute();
         $groups = $query_groups->fetchAll(PDO::FETCH_ASSOC);
 
-        $group_users = [];
+        $user_groups = [];
         foreach ($groups as $group) {
-            $query_group_users = $db->prepare("
+            $query_user_groups = $db->prepare("
                 SELECT
                     users.id,
                     users.username,
@@ -57,12 +57,12 @@ function homeController($smarty, $db)
                 AND user_groups.group_id = :group_id
                 AND user_groups.deleted IS NULL;
             ");
-            $query_group_users->bindParam(":group_id", $group['id'], PDO::PARAM_INT);
-            $query_group_users->execute();
-            $group_users[] = $query_group_users->fetchAll(PDO::FETCH_ASSOC);
+            $query_user_groups->bindParam(":group_id", $group['id'], PDO::PARAM_INT);
+            $query_user_groups->execute();
+            $user_groups[] = $query_user_groups->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        $smarty->assign('group_users', $group_users);
+        $smarty->assign('user_groups', $user_groups);
         $smarty->assign('user_id', $user['id']);
         $smarty->assign('username', $user['username']);
         $smarty->assign('email', $user['email']);

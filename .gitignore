@@ -1,0 +1,4 @@
+# /templates_c/*
+# /node_modules
+# /vendor
+# .env

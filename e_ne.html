@@ -1,0 +1,16 @@
+{if isset($user_groups) && count($user_groups) > 0}
+{foreach $user_groups as $group}
+{assign var=currentUserCount value=0}
+{foreach $group as $user}
+{if $user.approved === 0 && $user.id == $user_id}
+{assign var=currentUserCount value=$currentUserCount+1}
+{/if}
+{/foreach}
+{if $currentUserCount > 0}
+<div title="{$currentUserCount} new requests"
+    class="bg-warning rounded-circle position-absolute d-flex align-items-center justify-content-center">
+    <span class="badge bg-warning text-dark rounded-circle">{$currentUserCount}</span>
+</div>
+{/if}
+{/foreach}
+{/if}

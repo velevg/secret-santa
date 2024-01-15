@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://secret-santa.vg-dev.com/sitemap.xml
