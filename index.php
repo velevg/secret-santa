@@ -6,7 +6,7 @@ session_start();
 
 require('vendor/smarty/smarty/libs/Smarty.class.php');
 require('vendor/autoload.php');
-require('controllers/route.php');
+require('app/controllers/route.php');
 require('db.php');
 
 $smarty = new Smarty();

@@ -1,6 +1,6 @@
 <?php
-require('../../vendor/autoload.php');
-require('../../db.php');
+require('../../../vendor/autoload.php');
+require('../../../db.php');
 
 session_start();
 session_regenerate_id(true);

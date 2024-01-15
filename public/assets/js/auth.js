@@ -64,7 +64,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     type: "POST",
-                    url: "controllers/auth/loginAjax.php",
+                    url: "app/controllers/auth/loginAjax.php",
                     data: {
                         login: "true",
                         email: email,
@@ -73,7 +73,7 @@ $(document).ready(function () {
                     },
                     success: function (response) {
                         if (response.success == true) {
-                            $("#loginForm").attr('action', 'controllers/auth/login.php').submit();
+                            $("#loginForm").attr('action', 'app/controllers/auth/login.php').submit();
                         } else {
                             showNotification('error', '', response.message, 'topCenter', 5000);
                         }
@@ -133,7 +133,7 @@ $(document).ready(function () {
             if (success && emailRegex.test(email) && passwordRegex.test(password)) {
                 $.ajax({
                     type: "POST",
-                    url: "controllers/auth/registerAjax.php",
+                    url: "app/controllers/auth/registerAjax.php",
                     data: {
                         register: 'true',
                         email: email,
@@ -142,7 +142,7 @@ $(document).ready(function () {
                     },
                     success: function (response) {
                         if (response.success == true) {
-                            $("#registerForm").attr('action', 'controllers/auth/register.php').submit();
+                            $("#registerForm").attr('action', 'app/controllers/auth/register.php').submit();
                         } else {
                             showNotification('error', '', response.message, 'topCenter', 5000);
                         }

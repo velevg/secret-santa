@@ -181,7 +181,7 @@ $(document).ready(function () {
             if (success) {
                 $.ajax({
                     type: "POST",
-                    url: "controllers/profile/editProfileAjax.php",
+                    url: "app/controllers/profile/editProfileAjax.php",
                     data: {
                         edit_profile: true,
                         name: name,
@@ -246,7 +246,7 @@ $(document).ready(function () {
         function createGroup() {
             $.ajax({
                 type: "POST",
-                url: "controllers/groups/addGroupAjax.php",
+                url: "app/controllers/groups/addGroupAjax.php",
                 data: {
                     add_group: true,
                     group_name: newGroupName,
@@ -328,7 +328,7 @@ $(document).ready(function () {
     function deleteUserFromGroup(userId, ownerId, groupId) {
         $.ajax({
             type: 'POST',
-            url: 'controllers/groups/deleteUserFromGroupAjax.php',
+            url: 'app/controllers/groups/deleteUserFromGroupAjax.php',
             data: {
                 delete_user_from_group: true,
                 userId: userId,
@@ -370,7 +370,7 @@ $(document).ready(function () {
         if (searchValue.length > 1 && success) {
             $.ajax({
                 type: 'POST',
-                url: 'controllers/groups/searchUserAjax.php',
+                url: 'app/controllers/groups/searchUserAjax.php',
                 data: {
                     search_user: true,
                     searchValue: searchValue,
@@ -405,7 +405,7 @@ $(document).ready(function () {
             if (selectedUser.length > 0) {
                 $.ajax({
                     type: 'POST',
-                    url: 'controllers/groups/addUserToGroupAjax.php',
+                    url: 'app/controllers/groups/addUserToGroupAjax.php',
                     data: {
                         add_user_to_group: true,
                         selectedGroup: selectedGroup,
@@ -443,7 +443,7 @@ $(document).ready(function () {
             let userId = $(this).data('user-id');
             $.ajax({
                 type: 'POST',
-                url: 'controllers/groups/approveGroupRequestAjax.php',
+                url: 'app/controllers/groups/approveGroupRequestAjax.php',
                 data: {
                     approve_group_request: true,
                     groupId: groupId,
