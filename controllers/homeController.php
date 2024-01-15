@@ -68,7 +68,7 @@ function homeController($smarty, $db)
         $smarty->assign('email', $user['email']);
         $smarty->assign('csrf_token', $csrf_token);
 
-        $smarty->display('views/index.html');
+        $smarty->display('app/views/index.html');
     } else {
         session_destroy();
         session_start();

@@ -9,5 +9,5 @@ function authController($smarty)
     $csrf_token = generateCSRFToken();
     $_SESSION['csrf_token'] = $csrf_token;
     $smarty->assign('csrf_token', $csrf_token);
-    $smarty->display('views/auth.html');
+    $smarty->display('app/views/auth.html');
 }
