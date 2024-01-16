@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'user/smarty',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'b50a0725970c033a144e6a903e861e5f962f2f06',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -74,9 +74,9 @@
             'dev_requirement' => false,
         ),
         'user/smarty' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'b50a0725970c033a144e6a903e861e5f962f2f06',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

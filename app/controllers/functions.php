@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Get the base path of the site  */
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http'; // Get the protocol (http or https)
+$baseDir = str_replace('\\', '/', __DIR__); // Get the base directory & convert backslashes to forward slashes
+$serverName = $_SERVER['HTTP_HOST']; // Get the server name
+$base_path = $protocol . '://' . $serverName . $baseDir; // Combine the values to create the root URL
+
+/**
  * Print Variables. Show Variable content in <pre> ... </pre> tags via print_r
  * Show only if DEBUG Constant set to true!
  *

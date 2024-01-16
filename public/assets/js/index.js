@@ -120,9 +120,10 @@ $(document).ready(function () {
                 ['<input type="text">', 'keyup', function (instance, toast, input, e) {
                     $("#name").val(input.value);
                 }, true],
-                ['<input type="button" id="addName" value="Create">', 'click', function (instance, toast, input, e) {
+                ['<input type="button" id="addName" value="Add">', 'click', function (instance, toast, input, e) {
                     // updateProfile(name);
                     $("#editProfileBtn").click();
+                    instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
                 }]
             ]
         });

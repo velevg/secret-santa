@@ -7,9 +7,9 @@ session_start();
 require('vendor/smarty/smarty/libs/Smarty.class.php');
 require('vendor/autoload.php');
 require('app/controllers/route.php');
-require('db.php');
+require('app/controllers/db.php');
+require_once('app/controllers/functions.php');
 
 $smarty = new Smarty();
 
 $smarty->setTemplateDir('app/views/');
-
