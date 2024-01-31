@@ -37,20 +37,22 @@
 <body>
 
     <div class='d-flex justify-content-center align-items-center h-100 snow'>
-        <!-- <button id="getSession" class="btn btn-sm btn-info">getSession</button>
-        <script>
-            $(document).ready(function () {
-                $("#getSession").click(function () {
-                    $.ajax({
-                        type: "GET",
-                        url: "controllers/getSession.php",
-                        success: function (response) {
-                            console.log(response)
-                        }
+        <div class="position-absolute top-0 end-0">
+            <button id="getSession" class="btn btn-sm">session<i class="bi bi-clipboard-data"></i></button>
+            <script>
+                $(document).ready(function () {
+                    $("#getSession").click(function () {
+                        $.ajax({
+                            type: "GET",
+                            url: "app/controllers/getSession.php",
+                            success: function (response) {
+                                console.log(response)
+                            }
+                        })
                     })
                 })
-            })
-        </script> -->
+            </script>
+        </div>
         <!--FLIP CARD-->
         <div class='flip-card-3D-wrapper'>
             <div id='flip-card'>
