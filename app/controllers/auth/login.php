@@ -8,7 +8,7 @@ session_regenerate_id(true);
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login']) && isset($_POST['csrf_token']) && isset($_POST['email']) && isset($_POST['password']) && mb_strlen($_POST['email']) >= 5 && mb_strlen($_POST['password']) >= 7) {
     $success = true;
 
-    // $secretKey = '6LfXrTspAAAAAI9J5f7r_2b_Dpmz5TDPj5mDtVBr';
+    // $secretKey = '';
     // $recaptchaResponse = $_POST['g-recaptcha-response'];
 
     // $verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}";
